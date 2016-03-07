@@ -4,16 +4,15 @@
   .module("FormBuilderApp")
   .factory("FormsService", FormsService);
 
-  function FormsService($rootScope)
-  {
+  function FormsService() {
 
-    var formsModel = {
-      forms: [
-        {id: "000", title: "Contacts", userId: 123},
-        {id: "010", title: "ToDo", userId: 123},
-        {id: "020", title: "CDs", userId: 234},
-      ],
+    var forms = [
+      {"_id": "010", "title": "ToDo", "userId": 123},
+      {"_id": "000", "title": "Contacts", "userId": 123},
+      {"_id": "020", "title": "CDs", "userId": 234},
+    ];
 
+    var service = {
       createFormForUser : createFormForUser,
       findAllFormsForUser : findAllFormsForUser,
       deleteFormById : deleteFormById,
@@ -21,37 +20,35 @@
       findAllFormsById : findAllFormsById
     };
 
-    return formsModel;
+    return service;
 
     function createFormForUser(userId, form, callback) {
-      var newform = {
+      var newForm = {
         id: form.id,
         title: form.title,
-        userId: form.userId
+        userId: userId
       }
-      formsModel.forms.push(newform);
-      return newform;
-      console.log(form);
     }
 
     function findAllFormsForUser(userId, callback) {
-      for (var f in formsModel.forms) {
-        if (formsModel.forms[f].userId == userId){
-          return formsModel.forms[f];
+      for (var f in forms) {
+        if (forms[f].userId === userId) {
+          return forms[f];
         }
       }
       return null;
     }
 
     function deleteFormById(formId, callback) {
+      forms.splice(index, 1);
     }
 
     function updateFormById(formId, newForm, callback) {
-      var form = formsModel.findAllFormsById(formId);
+      var form = forms.findAllFormsById(formId);
       if (form !=null) {
-        form.id = newForm.id;
-        form.title = newForm.title;
-        form.userId = newForm.userId;
+        forms.form.id = newForm.id;
+        forms.form.title = newForm.title;
+        forms.form.userId = newForm.userId;
         return form;
       } else {
         return null;
@@ -59,12 +56,13 @@
     }
 
     function findAllFormsById(formId) {
-      for (var f in formsModel.forms) {
-        if (formsModel.forms[f].id == id) {
-          return formsModel.forms[f];
+      for (var f in forms) {
+        if (forms[f].id == id) {
+          return forms[f];
         }
       }
       return null;
     }
+
   }
 })();

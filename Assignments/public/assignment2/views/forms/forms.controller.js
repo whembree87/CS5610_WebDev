@@ -3,7 +3,11 @@
   .module("FormBuilderApp")
   .controller("FormsController", FormsController);
 
-  function FormsController($scope, FormsService) {
+  function FormsController($scope, FormsService, UserService) {
+
+    var user = UserService.getCurrentUser();
+    var userForms = [FormsService.findAllFormsForUser(user._id)];
+    $scope.userForms = userForms;
 
     // Event Handler Declarations
     $scope.addForm = addForm;
@@ -13,37 +17,34 @@
 
     // Event Handler Implementation
     function addForm(form) {
-      // Create and add to list
-      var newForm = {
-        id: form.id,
+      var userForm = {
+        _id: form.id,
         title: form.title,
         userId: form.userId
-      };
-      // Append to array
-      $scope.formsModel.forms.push(newForm);
+      }
+      $scope.userForms.push(userForm);
     }
 
     function updateForm(form) {
-        $scope.formsModel.forms[$scope.selectedFormIndex].id = form.id;
-  			$scope.formsModel.forms[$scope.selectedFormIndex].title = form.title;
-  			$scope.formsModel.forms[$scope.selectedFormIndex].userId = form.userId;
+      $scope.userForms[$scope.selectedFormIndex]._id = form.id;
+      $scope.userForms[$scope.selectedFormIndex].title = form.title;
+      $scope.userForms[$scope.selectedFormIndex].userId = form.userId;
     }
 
-    function deleteForm(form) {
-      var index = $scope.formsModel.forms.indexOf(form);
-      // Remove the element at index, once.
-      $scope.formsModel.forms.splice(index, 1);
+    function deleteForm(index) {
+      $scope.userForms.splice(index, 1);
     }
 
     var selectedFormIndex = -1;
 
-    function selectForm(form) {
-      selectedFormIndex = $scope.formsModel.forms.indexOf(form);
-      $scope.form = {
-        id: form.id,
-        title: form.title,
-        userId: form.userId
+    function selectForm(index) {
+      $scope.selectedFormIndex = index;
+      $scope.newForm = {
+        id: $scope.userForms[index]._id,
+        title: $scope.userForms[index].title,
+        userId: $scope.userForms[index].userId
       };
     }
+
   }
 })();

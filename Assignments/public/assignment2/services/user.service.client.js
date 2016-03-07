@@ -8,11 +8,11 @@
     var model = {
 
       users: [
-        {id: 123, firstName: "Alice", lastName: "Wonderland", username: "alice", password: "alice", roles: ["admin"]},
-        {id: 234, firstName: "Bob", lastName: "Hope", username: "bob", password: "bob", roles: ["admin"]},
-        {id: 345, firstName: "Charlie", lastName: "Brown", username: "charlie", password:"charlie", roles: ["user"]},
-        {id: 456, firstName: "Dan", lastName: "Craig", username: "dan", password:"dan", roles: ["admin"]},
-        {id: 567, firstName: "Edward", lastName: "Norton", username: "ed", password:"ed", roles: ["user"]}
+        {"_id": 123, "firstName": "Alice", "lastName": "Wonderland", "username": "alice", "password": "alice", "roles": ["admin"]},
+        {"_id": 234, "firstName": "Bob", "lastName": "Hope", "username": "bob", "password": "bob", "roles": ["admin"]},
+        {"_id": 345, "firstName": "Charlie", "lastName": "Brown", "username": "charlie", "password":"charlie", "roles": ["user"]},
+        {"_id": 456, "firstName": "Dan", "lastName": "Craig", "username": "dan", "password":"dan", "roles": ["admin"]},
+        {"_id": 567, "firstName": "Edward", "lastName": "Norton", "username": "ed", "password":"ed", "roles": ["user"]}
       ],
 
       createUser: createUser,
