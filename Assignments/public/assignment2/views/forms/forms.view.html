@@ -1,0 +1,43 @@
+<h1 class="page-header">Forms</h1>
+
+<table class="table table-striped" ng-controller="FormsController">
+
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Title</th>
+      <th>UserId</th>
+      <th>&nbsp;</th>
+    </tr>
+    <tr>
+      <th><input ng-model="newForm.id" class="form-control" placeholder="Id"/></th>
+      <th><input ng-model="newForm.title" class="form-control" placeholder="Title"/></th>
+      <th><input ng-model="newForm.userId" class="form-control" placeholder="UserId"/></th>
+      <th>
+        <button ng-click="addForm(newForm)" class="btn btn-primary">
+          Add
+        </button>
+        <button ng-click="updateForm(newForm)" class="btn btn-success">
+          Update
+        </button>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr  ng-repeat="userForm in userForms" ng-class="{'success' : $index == selectedFormIndex}">
+    <td>{{userForm._id}}</td>
+    <td>{{userForm.title}}</td>
+    <td>{{userForm.userId}}</td>
+    <td class="nowrap">
+      <button ng-click="deleteForm($index)" class="btn btn-danger">
+        Delete
+      </button>
+      <button ng-click="selectForm($index)" class="btn btn-info">
+        Select
+      </button>
+    </td>
+  </tr>
+</tbody>
+
+</table>
