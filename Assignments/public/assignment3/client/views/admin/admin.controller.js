@@ -7,6 +7,7 @@
 
     var vm = this;
     vm.addUser = addUser;
+    vm.updateUser = updateUser;
     vm.removeUser = removeUser;
     vm.selectUser = selectUser;
     vm.selectedUserIndex = -1;
@@ -18,7 +19,6 @@
       .then(function(response){
         var users = response.data;
         if(users != null) {
-          console.log(users);
           vm.users = users;
         }
       });
@@ -38,6 +38,32 @@
       });
     }
 
+    function updateUser(user) {
+
+      UserService
+      .findUserByUsername(user.username)
+      .then(function(response){
+        var theUser = response.data;
+        var updatedUser = {
+          _id: theUser._id,
+          firstName: theUser.firstName,
+          lastName: theUser.lastName,
+          username: user.username,
+          password: user.password,
+          email: theUser.email,
+          roles: user.roles
+        }
+        if(theUser != null) {
+          UserService
+          .updateUser(theUser._id, updatedUser)
+          .then(function(response){
+            var users = response.data;
+            vm.users = users;
+          });
+        }
+      });
+    }
+
     function removeUser(id) {
 
       UserService
@@ -50,10 +76,14 @@
       });
     }
 
-    function selectUser(id) {
-      vm.selectedUserIndex = id;
+    function selectUser(index, user) {
+      vm.selectedUserIndex = index;
+      vm.user = {
+        username: user.username,
+        password: user.password,
+        roles: user.roles,
+      }
     }
-
 
   }
 

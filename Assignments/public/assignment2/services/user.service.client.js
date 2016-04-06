@@ -8,11 +8,11 @@
     var model = {
 
       users: [
-        {"_id": 123, "firstName": "Alice", "lastName": "Wonderland", "username": "alice", "password": "alice", "roles": ["admin"]},
-        {"_id": 234, "firstName": "Bob", "lastName": "Hope", "username": "bob", "password": "bob", "roles": ["admin"]},
-        {"_id": 345, "firstName": "Charlie", "lastName": "Brown", "username": "charlie", "password":"charlie", "roles": ["user"]},
-        {"_id": 456, "firstName": "Dan", "lastName": "Craig", "username": "dan", "password":"dan", "roles": ["admin"]},
-        {"_id": 567, "firstName": "Edward", "lastName": "Norton", "username": "ed", "password":"ed", "roles": ["user"]}
+        {"_id": 123, "firstName": "Alice", "lastName": "Wonderland", "username": "alice", "password": "alice", "email": "abc@gmail.com", "roles": ["admin"]},
+        {"_id": 234, "firstName": "Bob", "lastName": "Hope", "username": "bob", "password": "bob", "email": "abc@gmail.com",  "roles": ["admin"]},
+        {"_id": 345, "firstName": "Charlie", "lastName": "Brown", "username": "charlie", "password":"charlie", "email": "abc@gmail.com",  "roles": ["user"]},
+        {"_id": 456, "firstName": "Dan", "lastName": "Craig", "username": "dan", "password":"dan", "email": "abc@gmail.com",  "roles": ["admin"]},
+        {"_id": 567, "firstName": "Edward", "lastName": "Norton", "username": "ed", "password":"ed", "email": "abc@gmail.com", "roles": ["user"]}
       ],
 
       createUser: createUser,
@@ -45,11 +45,16 @@
       }
 
       function updateUser (currentUser) {
-        var user = model.findUserByUsernameAndPassword (currentUser.username, currentUser.password);
+        //var user = model.findUserByUsernameAndPassword(currentUser.username, currentUser.password);
+        var user = $rootScope.currentUser;
         if (user != null) {
+          user._id = user._id;
           user.firstName = currentUser.firstName;
           user.lastName = currentUser.lastName;
+          user.username = currentUser.username;
           user.password = currentUser.password;
+          user.email = currentUser.email;
+          user.roles = currentUser.roles;
           return user;
         } else {
           return null;

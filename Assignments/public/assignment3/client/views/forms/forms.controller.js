@@ -30,6 +30,7 @@
 
       var user = $rootScope.currentUser;
       var userId = user._id;
+      console.log(userId);
 
       FormsService
       .createFormForUser(userId, form)
@@ -65,7 +66,7 @@
     }
 
     function selectForm(id) {
-  
+
     }
 
   }

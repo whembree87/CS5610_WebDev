@@ -24,7 +24,6 @@
         if(response.data) {
           theUser = response.data;
           UserService.setCurrentUser(theUser);
-          console.log(theUser);
           $location.url("/profile");
         }
       });

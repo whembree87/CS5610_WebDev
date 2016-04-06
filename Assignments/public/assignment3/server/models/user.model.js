@@ -9,7 +9,8 @@ module.exports = function() {
     update: update,
     Delete: Delete,
     findUserByUsername: findUserByUsername,
-    findUserByCredentials: findUserByCredentials
+    findUserByCredentials: findUserByCredentials,
+    getIndexOfUser: getIndexOfUser
   };
 
   return api;
@@ -26,25 +27,33 @@ module.exports = function() {
 
   function findById(id) {
     for(var u in mockUsers) {
-    if(mockUsers[u]._id === id) {
+      if(mockUsers[u]._id === id) {
         return mockUsers[u];
       }
     }
-    return null;
+    //return null;
   }
 
-  function update(currentUser, id) {
-    var user = findById(id);
-    if (user != null){
-      user._id = currentUser._id;
-      user.firstName = currentUser.firstName;
-      user.lastName = currentUser.lastName;
-      user.username = currentUser.username;
-      user.password = currentUser.passwords;
-      return user;
-    } else {
-      return null;
+  // User Id --> Index
+  function getIndexOfUser(id) {
+    for(var u in mockUsers) {
+      if(mockUsers[u]._id === id) {
+        return u;
+      }
     }
+    //return null;
+  }
+
+  // User Id --> All Users
+  function update(currentUser, id) {
+    var userIndex = getIndexOfUser(id);
+    mockUsers[userIndex]._id = currentUser._id;
+    mockUsers[userIndex].firstName = currentUser.firstName;
+    mockUsers[userIndex].lastName = currentUser.lastName;
+    mockUsers[userIndex].username = currentUser.username;
+    mockUsers[userIndex].password = currentUser.password;
+    mockUsers[userIndex].email = currentUser.email;
+    return mockUsers;
   }
 
   function Delete(id) {
@@ -52,23 +61,24 @@ module.exports = function() {
     return mockUsers;
   }
 
+  // Username --> User Profile
   function findUserByUsername(username) {
     for(var u in mockUsers) {
-    if(mockUsers[u].username === username) {
+      if(mockUsers[u].username === username) {
         return mockUsers[u];
       }
     }
-    return null;
+    //return null;
   }
 
   function findUserByCredentials(credentials) {
-       for (var u in mockUsers) {
-           if (mockUsers[u].username == credentials.username &&
-               mockUsers[u].password == credentials.password) {
-               return mockUsers[u];
-           }
-       }
-       return null;
-   }
+    for (var u in mockUsers) {
+      if (mockUsers[u].username == credentials.username &&
+        mockUsers[u].password == credentials.password) {
+          return mockUsers[u];
+        }
+      }
+      return null;
+    }
 
   }

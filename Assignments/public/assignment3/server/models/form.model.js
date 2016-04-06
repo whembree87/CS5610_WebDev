@@ -5,7 +5,7 @@ module.exports = function() {
   var api = {
     Create: Create,
     FindAll: FindAll,
-    FindById: FindById,
+    getFormByUserId: getFormByUserId,
     update: update,
     getIndex: getIndex,
     Delete: Delete,
@@ -22,9 +22,12 @@ module.exports = function() {
     return filteredUserForms;
   }
 
-  function FindAll() {}
+  function FindAll() {
+    return mockForms;
+  }
 
-  function FindById(userId) {
+  // userId --> forms
+  function getFormByUserId(userId) {
     var theForms = [];
     for (var m in mockForms) {
       if (mockForms[m].userId === userId) {
@@ -39,11 +42,11 @@ module.exports = function() {
   // formId --> index
   function getIndex(formId) {
     for (var i = 0; i < mockForms.length; i++) {
-        if (mockForms[i]._id === formId) {
-            return i;
-        }
+      if (mockForms[i]._id === formId) {
+        return i;
+      }
     }
-}
+  }
 
   function Delete(formId) {
     var index = getIndex(formId);
