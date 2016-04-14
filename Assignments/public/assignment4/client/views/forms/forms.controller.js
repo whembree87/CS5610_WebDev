@@ -8,48 +8,41 @@
     var vm = this;
     vm.addForm = addForm;
     vm.deleteForm = deleteForm;
+    vm.updateForm = updateForm;
+    vm.selectForm = selectForm;
     vm.selectedFormIndex = -1;
 
-    //////////////////////
+    ////////////////////////////////
 
     function init() {
 
       var user = $rootScope.currentUser;
-      console.log(user);
       var userId = user._id;
-      console.log(userId);
 
       FormsService
       .findAllFormsForUser(userId)
       .then(function (response) {
-        if(response.data) {
-          console.log(response.data);
-          var forms = response.data;
-          vm.forms = forms;
-        }
+        vm.forms = response.data;
       });
     }
     return init();
 
-    //////////////////////
+    ////////////////////////////////
 
-    function addForm(form) {
+    function addForm(formTitle) {
 
       var user = $rootScope.currentUser;
       var userId = user._id;
-      console.log(userId);
 
       FormsService
-      .createFormForUser(userId, form)
+      .createFormForUser(userId, formTitle)
       .then(function (response) {
-        var forms = response.data;
-        if(forms != null) {
-          vm.forms = forms;
-        }
+        var forms =
+        vm.forms = response.data;
       });
     }
 
-    //////////////////////
+    ////////////////////////////////
 
     function deleteForm(form) {
 
@@ -60,27 +53,47 @@
       FormsService
       .deleteFormById(formId)
       .then(function(response){
-        var forms = response.data;
-        if(forms != null) {
-          FormsService
-          .findAllFormsForUser(userId)
-          .then(function(response){
-            var userForms = response.data;
-            if(userForms != null) {
-              vm.forms = userForms;
-            }
-          });
+
+        FormsService
+        .findAllFormsForUser(response.data)
+        .then(function(response){
+          var userForms = response.data;
+          if(userForms != null) {
+            vm.forms = userForms;
+          }
+        });
+      });
+    }
+
+    ////////////////////////////////
+
+    function selectForm(index, form) {
+      vm.selectedFormIndex = index;
+      vm.form = {
+        _id: form._id,
+        title: form.title,
+        userId: form.userId,
+        fields: form.fields
+      }
+    }
+
+    ////////////////////////////////
+
+    function updateForm(form) {
+
+      var formId = form._id;
+
+      FormsService
+      .updateFormById(formId, form)
+      .then(function(response){
+        var userForms = response.data;
+        if(userForms != null) {
+          vm.forms = userForms;
         }
       });
     }
 
-    //////////////////////
-
-    function selectForm(id) {
-
-    }
-
-    //////////////////////
+    ////////////////////////////////
 
   }
 })();

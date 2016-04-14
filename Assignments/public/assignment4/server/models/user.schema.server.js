@@ -1,7 +1,6 @@
 module.exports = function (mongoose) {
 
   var UserSchema = mongoose.Schema({
-    _id: String,
     username: String,
     password: String,
     firstName: String,
@@ -9,6 +8,6 @@ module.exports = function (mongoose) {
     emails: [String],
     phones: [String],
     roles: [String]
-  });
-return UserSchema;
+  }, {collection: 'users'});
+  return UserSchema;
 };

@@ -6,16 +6,12 @@
   function LoginController(UserService, $location) {
 
     var vm = this;
-
     vm.login = login;
 
-    //////////////////////
-
     function init() {
+
     }
     init();
-
-    //////////////////////
 
     function login(user) {
 
@@ -27,12 +23,10 @@
       .then(function(response){
         if(response.data) {
           theUser = response.data;
-          console.log(theUser, "login controller");
           UserService.setCurrentUser(theUser);
           $location.url("/profile");
         }
       });
     }
-
   }
 })();

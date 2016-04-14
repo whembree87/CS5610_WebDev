@@ -6,141 +6,97 @@ module.exports = function(db, mongoose) {
   var FormModel = mongoose.model("forms", FormSchema);
 
   var api = {
-    createFormForUser: createFormForUser,
-    findAllForms: findAllForms,
-    getFormsByUserId: getFormsByUserId,
+    createNewForm: createNewForm,
+    FindAll: FindAll,
+    getFormByUserId: getFormByUserId,
     updateFormById: updateFormById,
     deleteFormById: deleteFormById,
-    findFormByTitle: findFormByTitle,
-    getFormById: getFormById
+    FindFormByTitle: FindFormByTitle,
+    getFormByFormId: getFormByFormId
   };
 
   return api;
 
-  //////////////////////
+  ////////////////////////////////
 
-  function createFormForUser(form) {
+  // UserId NewForm --> All Forms
+  function createNewForm(userId, newForm) {
+    var nForm = {
+      title: newForm.title,
+      userId: userId,
+      fields: [],
+      created: (new Date).getTime(),
+      updated: (new Date).getTime()
+    };
+
     var deferred = q.defer();
-    FormModel.create(newForm, function (err, forms) {
+
+    FormModel.create(nForm, function (err, doc) {
       if (err) {
         deferred.reject(err);
-      } else {
-        deferred.resolve(forms);
+      }
+      else {
+        deferred.resolve(doc);
+      }
+    });
+
+    return deferred.promise;
+  }
+
+  ////////////////////////////////
+
+  function FindAll() {
+  }
+
+  ////////////////////////////////
+
+  function getFormByUserId(userId) {
+    var deferred = q.defer();
+
+    FormModel.find({userId: userId}, function(err, doc) {
+      if (err) {
+        deferred.reject(err);
+      }
+      else {
+        deferred.resolve(doc);
       }
     });
     return deferred.promise;
   }
 
-  //////////////////////
-
-  function findAllForms() {
-    var deferred = q.defer();
-    FormModel.find(function (err, forms) {
-      if (err) {
-        deferred.reject(err);
-      } else {
-        deferred.resolve(forms);
-      }
-    });
-    return deferred.promise;
-  }
-  //////////////////////
-
-  // UserId --> UserForms
-  function getFormsByUserId(userId) {
-    return FormModel.find({userId: userId});
-    // console.log(userId, "formModel")
-    // var deferred = q.defer();
-    // FormModel.find({_id: userId}, function (err, formsFound) {
-    //   if (err) {
-    //     deferred.reject(err);
-    //   } else {
-    //     deferred.resolve(formsFound);
-    //   }
-    // });
-    // return deferred.promise;
-  }
-//   var deferred = q.defer();
-//   FormModel.find({}, function (err, users) {
-//     if (err) {
-//       deferred.reject(err);
-//     }
-//     else {
-//       deferred.resolve(users);
-//     }
-//   });
-//   return deferred.promise;
-// }
-
-  //////////////////////
+  ////////////////////////////////
 
   function updateFormById(formId, form) {
+
+  }
+
+  ////////////////////////////////
+
+  function deleteFormById(id) {
     var deferred = q.defer();
-    FormModel.update({_id: formId}, {$set: form}, function (err, form) {
+
+    FormModel.remove({_id: id}, function (err, doc) {
       if (err) {
         deferred.reject(err);
-      } else {
-        FormModel.find(function (err, forms) {
-          if (err) {
-            deferred.reject(err);
-          } else {
-            deferred.resolve(forms);
-          }
-        });
+      }
+      else {
+        deferred.resolve(doc);
       }
     });
+
     return deferred.promise;
   }
 
-  //////////////////////
+  ////////////////////////////////
 
-  function deleteFormById(formId) {
-    var deferred = q.defer();
-    FormModel.remove({_id: formId},function (err, forms) {
-      if (err) {
-        deferred.reject(err);
-      } else {
-        FormModel.find(function (err, forms) {
-          if (err) {
-            deferred.reject(err);
-          } else {
-            deferred.resolve(forms);
-          }
-        });
-      }
-    });
-    return deferred.promise;
-  }
+  function FindFormByTitle() {}
 
-  //////////////////////
-
-  function findFormByTitle(titleGiven) {
-    var deferred = q.defer();
-    FormModel.findOne({title: titleGiven}, function (err, formFound) {
-      if (err) {
-        deferred.reject(err);
-      } else {
-        deferred.resolve(formFound);
-      }
-    });
-    return deferred.promise;
-  }
-
-  //////////////////////
+  ////////////////////////////////
 
   // formId --> form
-  function getFormById(formId) {
-    var deferred = q.defer();
-    FormModel.findById(formId, function (err, formFound) {
-      if (err) {
-        deferred.reject(err);
-      } else {
-        deferred.resolve(formFound);
-      }
-    });
-    return deferred.promise;
+  function getFormByFormId(formId) {
   }
 
-  //////////////////////
+  ////////////////////////////////
 
 }
