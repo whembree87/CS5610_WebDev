@@ -44,7 +44,6 @@ module.exports = function(app, userModel) {
 
       function findAll(req, res) {
         console.log("/api/assignment/users", "findAll");
-        //res.json(userModel.findAll());
         userModel.findAll()
         .then(
           function(users) {

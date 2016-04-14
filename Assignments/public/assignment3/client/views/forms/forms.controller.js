@@ -8,7 +8,11 @@
     var vm = this;
     vm.addForm = addForm;
     vm.deleteForm = deleteForm;
+    vm.updateForm = updateForm;
+    vm.selectForm = selectForm;
     vm.selectedFormIndex = -1;
+
+    ////////////////////////////////
 
     function init() {
 
@@ -26,14 +30,15 @@
     }
     return init();
 
-    function addForm(form) {
+    ////////////////////////////////
+
+    function addForm(formTitle) {
 
       var user = $rootScope.currentUser;
       var userId = user._id;
-      console.log(userId);
 
       FormsService
-      .createFormForUser(userId, form)
+      .createFormForUser(userId, formTitle)
       .then(function (response) {
         var forms = response.data;
         if(forms != null) {
@@ -41,6 +46,8 @@
         }
       });
     }
+
+    ////////////////////////////////
 
     function deleteForm(form) {
 
@@ -65,9 +72,35 @@
       });
     }
 
-    function selectForm(id) {
+    ////////////////////////////////
 
+    function selectForm(index, form) {
+       vm.selectedFormIndex = index;
+       vm.form = {
+         _id: form._id,
+         title: form.title,
+         userId: form.userId,
+         fields: form.fields
+       }
     }
+
+    ////////////////////////////////
+
+    function updateForm(form) {
+
+      var formId = form._id;
+
+      FormsService
+      .updateFormById(formId, form)
+      .then(function(response){
+        var userForms = response.data;
+        if(userForms != null) {
+          vm.forms = userForms;
+        }
+      });
+    }
+
+  ////////////////////////////////
 
   }
 })();

@@ -10,11 +10,12 @@ module.exports = function(app, formModel) {
   function findAllFormsForUser(req, res) {
     console.log("/api/assignment/user/:userId/form", "findAllFormsForUser");
     var userId = req.params.userId;
+    console.log(userId);
     formModel.getFormsByUserId(userId)
     .then(
       function(forms){
-        console.log(forms);
         res.json(forms);
+        console.log(forms);
       },
       function(err){
         res.status(400).send(err);

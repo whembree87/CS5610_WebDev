@@ -15,14 +15,16 @@
     function init() {
 
       var user = $rootScope.currentUser;
-      var userId = user.userId;
+      console.log(user);
+      var userId = user._id;
+      console.log(userId);
 
       FormsService
       .findAllFormsForUser(userId)
       .then(function (response) {
-        var forms = response.data;
-        if(forms != null) {
-          console.log(forms);
+        if(response.data) {
+          console.log(response.data);
+          var forms = response.data;
           vm.forms = forms;
         }
       });

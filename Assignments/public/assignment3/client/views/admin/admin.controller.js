@@ -12,6 +12,8 @@
     vm.selectUser = selectUser;
     vm.selectedUserIndex = -1;
 
+    ////////////////////////////////
+
     function init() {
 
       UserService
@@ -26,6 +28,8 @@
     }
     init();
 
+    ////////////////////////////////
+
     function addUser(newUser) {
 
       UserService
@@ -37,6 +41,8 @@
         }
       });
     }
+
+    ////////////////////////////////
 
     function updateUser(user) {
 
@@ -64,6 +70,8 @@
       });
     }
 
+    ////////////////////////////////
+
     function removeUser(id) {
 
       UserService
@@ -76,6 +84,8 @@
       });
     }
 
+    ////////////////////////////////
+
     function selectUser(index, user) {
       vm.selectedUserIndex = index;
       vm.user = {
@@ -84,6 +94,8 @@
         roles: user.roles,
       }
     }
+
+    ////////////////////////////////
 
   }
 

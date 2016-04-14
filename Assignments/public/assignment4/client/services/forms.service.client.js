@@ -30,16 +30,18 @@
       //////////////////////
 
     function findAllFormsForUser(userId) {
-            var deferred = $q.defer();
-            $http.get("/api/assignment/user/" + userId + "/form")
-                .then(function(forms){
-                    deferred.resolve(forms);
-                }, function (forms) {
-                    deferred.reject(forms);
-                });
-
-            return deferred.promise;
-        }
+      return $http.get("/api/assignment/user/" + userId + "/form");
+    }
+        //     var deferred = $q.defer();
+        //     return $http
+        //     .get("/api/assignment/user/" + userId + "/form")
+        //         .then(function(forms){
+        //             deferred.resolve(forms);
+        //         }, function (forms) {
+        //             deferred.reject(forms);
+        //         });
+        //     return deferred.promise;
+        // }
 
   //////////////////////
 

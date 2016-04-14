@@ -68,7 +68,6 @@ module.exports = function() {
         return mockUsers[u];
       }
     }
-    //return null;
   }
 
   function findUserByCredentials(credentials) {
