@@ -1,0 +1,27 @@
+<h1 class="page-header">Dictionary</h1>
+
+<h5>German to English</h5>
+
+<form ng-controller="DictionaryController">
+
+  <fieldset class="form-group">
+    <input ng-model="searchWord"  type="text" class="form-control" placeholder="Enter word"/>
+  </br>
+  <button ng-click="searchDictionary(searchWord)" class="btn btn-primary btn-block">Search</button>
+</fieldset>
+
+<div ng-show="searchWord" class="col-sm-4 col-md-5">
+<div class="table-responsive">
+  <table class="table table-striped">
+    <tbody>
+      <tr ng-repeat="definition in data.tuc">
+        <td>{{definition.phrase.text}}</td>
+        <td><button class="btn btn-info btn-sm">Add to MyVocabulary</button></td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
+</div>
+
+</form>

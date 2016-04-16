@@ -7,19 +7,21 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var mongoose = require('mongoose');
+var cors = require('cors');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());
-
 app.use(session({
-    secret: 'shhhhh',
+    secret: 'this is the secret',
     resave: true,
     saveUninitialized: true
 }));
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors());
+app.options('*', cors());
 
 var connectionString = 'mongodb://127.0.0.1:27017/Assignment4/';
 

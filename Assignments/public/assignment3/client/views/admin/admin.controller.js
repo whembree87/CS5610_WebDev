@@ -59,14 +59,13 @@
           email: theUser.email,
           roles: user.roles
         }
-        if(theUser != null) {
+
           UserService
           .updateUser(theUser._id, updatedUser)
           .then(function(response){
             var users = response.data;
             vm.users = users;
           });
-        }
       });
     }
 

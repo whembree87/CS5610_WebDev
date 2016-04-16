@@ -138,9 +138,9 @@
 
     // Field --> All Fields
     function deleteField(field) {
-      console.log(field._id);
+      console.log(field.fieldId);
       FieldService
-      .deleteFieldFromForm(formId, field._id)
+      .deleteFieldFromForm(formId, field.fieldId)
       .then(function (response) {
         var fields = response.data;
         if(fields != null) {
