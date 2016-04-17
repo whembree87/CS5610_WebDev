@@ -9,7 +9,6 @@ module.exports = function() {
     updateFormById: updateFormById,
     getIndex: getIndex,
     deleteFormById: deleteFormById,
-    FindFormByTitle: FindFormByTitle,
     getFormByFormId: getFormByFormId
   };
 
@@ -59,26 +58,7 @@ module.exports = function() {
       }
     }
     return getFormByUserId(form.userId);
-    // for(var f in mockForms){
-    //   if(mockForms[f]._id === formId){
-    //     mockForms[f]._id = form._id;
-    //     mockForms[f].title = form.title;
-    //     mockForms[f].userId = form.userId;
-    //     mockForms[f].fields = form.fields;
-    //   }
-    // }
   }
-
-  // function update(currentUser, id) {
-  //   var userIndex = getIndexOfUser(id);
-  //   mockUsers[userIndex]._id = currentUser._id;
-  //   mockUsers[userIndex].firstName = currentUser.firstName;
-  //   mockUsers[userIndex].lastName = currentUser.lastName;
-  //   mockUsers[userIndex].username = currentUser.username;
-  //   mockUsers[userIndex].password = currentUser.password;
-  //   mockUsers[userIndex].email = currentUser.email;
-  //   return mockUsers;
-  // }
 
   ////////////////////////////////
 
@@ -99,29 +79,9 @@ module.exports = function() {
         mockForms.splice(m, 1);
       }
     }
-    // var index = getIndex(formId);
-    // console.log("Form Id is", formId);
-    // console.log("Index of form is", index);
-    // var filteredForms = mockForms.splice(index, 1);
-    // //return filteredForms;
-    // console.log("Filtered forms are", filteredForms);
   }
 
-  // function deleteFieldFromForm(formId, fieldId) {
-  //   var Forms = getFormByFormId(formId);
-  //   var fields = Forms.fields;
-  //
-  //   for (f in fields){
-  //     if (fields[f]._id === fieldId) {
-  //       fields.splice(f, 1);
-  //       return fields;
-  //     }
-  //   }
-  // }
-
   ////////////////////////////////
-
-  function FindFormByTitle() {}
 
   // formId --> form
   function getFormByFormId(formId) {

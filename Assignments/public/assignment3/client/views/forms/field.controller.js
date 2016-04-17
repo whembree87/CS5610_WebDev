@@ -102,6 +102,7 @@
 
     function addField(field) {
       var newField = {"label": "", "type": whichFieldType(field), "placeholder": "", "options": null};
+      console.log(formId, newField);
       FieldService
       .createFieldForForm(formId, newField)
       .then(function (response) {
@@ -134,9 +135,9 @@
     /////////////////////////////
 
     function deleteField(field) {
-      console.log(field.fieldId);
+      console.log("The field is", field);
       FieldService
-      .deleteFieldFromForm(formId, field.fieldId)
+      .deleteFieldFromForm(formId, field._id)
       .then(function (response) {
         var fields = response.data;
         if(fields != null) {

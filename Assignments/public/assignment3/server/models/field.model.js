@@ -26,9 +26,22 @@ module.exports = function(formModel) {
 
   // FormId Field --> Fields
   function createFieldForForm(formId, field) {
-    var formIndex = getIndexOfForm(formId);
 
-    mockForms[formIndex].fields.push(field);
+    var newId = (new Date).getTime();
+    var id = newId.toString();
+
+    var newField ={
+      _id: id,
+      label: field.label,
+      type: field.type,
+      placeholder: field.placeholder,
+      options: field.options
+    };
+
+    var formIndex = getIndexOfForm(formId);
+    console.log("FormIndex is", formIndex);
+
+    mockForms[formIndex].fields.push(newField);
 
     return mockForms[formIndex].fields;
   }
@@ -82,7 +95,6 @@ module.exports = function(formModel) {
     }
 
   }
-
 
   /////////////////////////////
 

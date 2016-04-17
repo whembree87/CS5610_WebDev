@@ -38,6 +38,7 @@
     ////////////////////////////////
 
     function deleteFieldFromForm(formId, fieldId) {
+      console.log(formId, fieldId);
       return $http.delete("/api/assignment/form/" + formId + "/field/" + fieldId);
     }
 

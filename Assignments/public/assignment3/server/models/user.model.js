@@ -15,15 +15,21 @@ module.exports = function() {
 
   return api;
 
+  ////////////////////////////////
+
   function create(user) {
     user._id = "ID_" + (new Date()).getTime();
     mockUsers.push(user);
     return mockUsers;
   }
 
+  ////////////////////////////////
+
   function findAll() {
     return mockUsers;
   }
+
+  ////////////////////////////////
 
   function findById(id) {
     for(var u in mockUsers) {
@@ -31,8 +37,9 @@ module.exports = function() {
         return mockUsers[u];
       }
     }
-    //return null;
   }
+
+  ////////////////////////////////
 
   // User Id --> Index
   function getIndexOfUser(id) {
@@ -41,8 +48,9 @@ module.exports = function() {
         return u;
       }
     }
-    //return null;
   }
+
+  ////////////////////////////////
 
   // User Id --> All Users
   function update(currentUser, id) {
@@ -56,10 +64,14 @@ module.exports = function() {
     return mockUsers;
   }
 
+  ////////////////////////////////
+
   function Delete(id) {
     mockUsers.splice(id, 1);
     return mockUsers;
   }
+
+  ////////////////////////////////
 
   // Username --> User Profile
   function findUserByUsername(username) {
@@ -70,6 +82,8 @@ module.exports = function() {
     }
   }
 
+  ////////////////////////////////
+
   function findUserByCredentials(credentials) {
     for (var u in mockUsers) {
       if (mockUsers[u].username == credentials.username &&
@@ -79,5 +93,7 @@ module.exports = function() {
       }
       return null;
     }
+
+    ////////////////////////////////
 
   }

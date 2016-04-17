@@ -1,10 +1,13 @@
 module.exports = function(app, userModel) {
+  
   app.get("/api/assignment/user", findUserByCredentials);
   app.get("/api/assignment/users", findAll);
   app.get("/api/assignment/user?username=username", findUserByUsername);
   app.post("/api/assignment/createuser", createUser);
   app.delete("/api/assignment/user/:id", Delete);
   app.put("/api/assignment/user/:id", update);
+
+    ////////////////////////////////
 
   function findUserByCredentials(req, res) {
     console.log("/api/assignment/user");
@@ -22,6 +25,8 @@ module.exports = function(app, userModel) {
     }
   }
 
+    ////////////////////////////////
+
   function createUser(req, res) {
     console.log("/api/assignment/createuser");
     var user = req.body;
@@ -29,11 +34,15 @@ module.exports = function(app, userModel) {
     res.json(updatedUsers);
   }
 
+  ////////////////////////////////
+
   function findAll(req, res) {
     console.log("/api/assignment/users");
     var profiles = userModel.findAll();
     res.json(profiles);
   }
+
+    ////////////////////////////////
 
   function findUserById(req, res) {
     var userId = req.params.id;
@@ -41,12 +50,16 @@ module.exports = function(app, userModel) {
     res.json(theUser);
   }
 
+    ////////////////////////////////
+
   function findUserByUsername(req, res) {
     console.log("/api/assignment/user?username=username");
     var username = req.query.username;
     var userProfile = userModel.findUserByUsername(username);
-    res.jsonv(userProfile);
+    res.json(userProfile);
   }
+
+    ////////////////////////////////
 
   function update(req, res) {
     console.log("/api/assignment/user/:id");
@@ -58,11 +71,15 @@ module.exports = function(app, userModel) {
     res.json(updatedUsers);
   }
 
+    ////////////////////////////////
+
   function Delete(req, res){
     console.log("/api/assignment/user/:id");
     var id = req.params["id"];
     var allUsers = userModel.Delete(id);
     res.json(allUsers);
   }
+
+    ////////////////////////////////
 
 }
