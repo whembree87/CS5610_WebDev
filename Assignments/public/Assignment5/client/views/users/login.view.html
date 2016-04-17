@@ -1,6 +1,8 @@
 <h1 class="page-header">Login</h1>
 
-<div ng-show="message" class="alert alert-danger" role="alert">{{message}}</div>
+<div ng-if="model.error" class="alert alert-danger">
+  {{model.error}}
+</div>
 
 <div class="form-horizontal">
 

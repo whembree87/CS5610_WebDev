@@ -27,7 +27,6 @@
 
     function init() {
 
-      // formId --> formTitle
       FieldService
       .getFormByFormId(formId)
       .then(function (response) {
@@ -39,7 +38,6 @@
         }
       });
 
-      // formId --> fields
       FieldService
       .getFieldsForForm(formId)
       .then(function (response) {
@@ -102,7 +100,6 @@
 
     /////////////////////////////
 
-    // Field --> All Fields
     function addField(field) {
       var newField = {"label": "", "type": whichFieldType(field), "placeholder": "", "options": null};
       FieldService
@@ -136,7 +133,6 @@
 
     /////////////////////////////
 
-    // Field --> All Fields
     function deleteField(field) {
       console.log(field.fieldId);
       FieldService

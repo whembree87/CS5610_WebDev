@@ -7,35 +7,27 @@
 
     var vm = this;
     vm.updateUser = updateUser;
-    vm.currentUser = $rootScope.currentUser;
 
     /////////////////////////////
 
     function init(){
-      console.log($rootScope.currentUser);
-      var currentUser = UserService.getCurrentUser();
-      if(currentUser == null) {
-        $location.url("/home");
-      }
+
+      vm.currentUser = UserService.getCurrentUser();
+
     }
     return init();
 
     /////////////////////////////
 
-    function updateUser(currentUser) {
-      UserService
-      .updateUser(currentUser._id, currentUser);
-    }
+    function updateUser(user) {
 
-    UserService
-    .findUserByCredentials(username, password)
-    .then(function(response){
-      if(response.data) {
-        theUser = response.data;
-        UserService.setCurrentUser(theUser);
-        $location.url("/profile");
-      }
-    });
+      UserService
+      .updateUser(user._id, user)
+      .then(
+        function(response) {
+          vm.currentUser = response.data;
+        });
+    }
 
     /////////////////////////////
 

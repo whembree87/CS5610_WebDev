@@ -19,7 +19,7 @@
       UserService
       .findAllUsers()
       .then(function(response){
-          vm.users =  response.data;;
+        vm.users =  response.data;;
       });
     }
 
@@ -74,20 +74,20 @@
       });
     }
 
-  //   FormsService
-  //   .deleteFormById(formId)
-  //   .then(function(response){
-  //
-  //     FormsService
-  //     .findAllFormsForUser(response.data)
-  //     .then(function(response){
-  //       var userForms = response.data;
-  //       if(userForms != null) {
-  //         vm.forms = userForms;
-  //       }
-  //     });
-  //   });
-  // }
+    //   FormsService
+    //   .deleteFormById(formId)
+    //   .then(function(response){
+    //
+    //     FormsService
+    //     .findAllFormsForUser(response.data)
+    //     .then(function(response){
+    //       var userForms = response.data;
+    //       if(userForms != null) {
+    //         vm.forms = userForms;
+    //       }
+    //     });
+    //   });
+    // }
 
     // function getUser(updatedUser){
     //   var users = vm.users;
@@ -99,16 +99,16 @@
     //   }
     // }
 
-        // var theUser = response.data;
-        // var updatedUser = {
-          // _id: theUser._id,
-          // firstName: theUser.firstName,
-          // lastName: theUser.lastName,
-          // username: user.username,
-          // password: user.password,
-          // email: theUser.email,
-          // roles: user.roles
-        // }
+    // var theUser = response.data;
+    // var updatedUser = {
+    // _id: theUser._id,
+    // firstName: theUser.firstName,
+    // lastName: theUser.lastName,
+    // username: user.username,
+    // password: user.password,
+    // email: theUser.email,
+    // roles: user.roles
+    // }
     //     if(theUser != null) {
     //       UserService
     //       .updateUser(theUser._id, updatedUser)
@@ -127,7 +127,7 @@
       UserService
       .deleteUserById(id)
       .then(function(response){
-          vm.users = response.data;
+        vm.users = response.data;
       });
     }
 

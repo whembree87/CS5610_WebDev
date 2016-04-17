@@ -3,30 +3,21 @@ var LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function(app, userModel) {
 
-var auth = authorized;
+  var auth = authorized;
 
-  app.get("/api/assignment/user", findUserByCredentials);
-  app.get("/api/assignment/users", findAll);
-  app.get("/api/assignment/user/:userId",  findUserById);
-  app.get("/api/assignment/user?username=username", findUserByUsername);
-  app.post("/api/assignment/createuser", createUser);
-  app.delete("/api/assignment/user/:id", deleteUser);
-  app.put("/api/assignment/user/:id", updateUser);
-  //////////////////////
-  app.post  ('/api/login', passport.authenticate('local'), login);
-  app.post  ('/api/logout',         logout);
-  app.post  ('/api/register',       register);
-  app.post  ('/api/user',     auth, createUser);
-  app.get   ('/api/loggedin',       loggedin);
-  app.get   ('/api/user',     auth, findAllUsers);
-  app.put   ('/api/user/:id', auth, updateUser);
-  app.delete('/api/user/:id', auth, deleteUser);
+  app.post  ("/api/assignment/login", passport.authenticate('local'), login);
+  app.post  ("/api/assignment/logout", logout);
+  app.post  ("/api/assignment/register", register);
+  app.post  ("/api/assignment/admin/createuser", auth, createUser);
+  app.get   ("/api/assignment/loggedin", loggedin);
+  app.get   ("/api/assignment/admin/user", auth, findAllUsers);
+  app.put   ("/api/assignment/admin/user/:userId", auth, updateUser);
+  app.delete("/api/assignment/admin/user/:userId", auth, deleteUser);
 
-  //////////////////////
-  // Security
   //////////////////////
 
   function authorized (req, res, next) {
+
     if (!req.isAuthenticated()) {
       res.send(401);
     } else {
@@ -34,9 +25,12 @@ var auth = authorized;
     }
   };
 
-  // var userModel = require("../../models/user/user.model.server.js")();
+  //////////////////////
+
   passport.use(new LocalStrategy(localStrategy));
+
   function localStrategy(username, password, done) {
+
     userModel
     .findUserByCredentials({username: username, password: password})
     .then(
@@ -50,14 +44,19 @@ var auth = authorized;
     );
   }
 
+  //////////////////////
+
   passport.serializeUser(serializeUser);
   passport.deserializeUser(deserializeUser);
 
   function serializeUser(user, done) {
+
     done(null, user);
+
   }
 
   function deserializeUser(user, done) {
+
     userModel
     .findUserById(user._id)
     .then(
@@ -70,149 +69,199 @@ var auth = authorized;
     );
   }
 
-  function login(req, res) {
-    var user = req.user;
-    res.json(user);
-  }
-
-  function logout(req, res) {
-    req.logOut();
-    res.send(200);
-  }
-
-  function loggedin(req, res) {
-    res.send(req.isAuthenticated() ? req.user : '0');
-  }
-
-  function register(req, res) {}
-
-  function findAllUsers(req, res) {}
-
   //////////////////////
 
-  function findUserByCredentials(req, res) {
+  function login(req, res) {
 
-    console.log("/api/assignment/user", "findUserByCredentials");
+    var user = req.user;
 
-    if(req.query.password != null) {
+    var credentials = {
+      username : user.username,
+      password : user.password
+    };
 
-      var cred = {
-        username: req.query.username,
-        password: req.query.password
-      };
-
-      userModel.findUserByCredentials(cred)
-      .then(
-        function (user) {
-          res.json(user);
-        },
-        function (err) {
-          res.status(400).send(err);
-        });
-      }
-      else if (req.query.username !=null) {
-        findUserByUsername(req, res);
-      }
-      else if (req.query.userId != null) {
-        findUserById(req, res);
-      }
-      else findAll(req, res);
+    userModel.findUserByCredentials(credentials)
+    .then(
+      function (user) {
+        res.json(user);
+      },
+      function (err) {
+        res.status(400).send(err);
+      })
     }
 
     //////////////////////
 
-    function findUserById(req, res) {
-      console.log(req.params.userId);
+    function logout(req, res) {
+
+      req.logOut();
+
+      res.send(200);
+
+    }
+
+
+    //////////////////////
+
+    function loggedin(req, res) {
+
+      res.send(req.isAuthenticated() ? req.user : '0');
+
+    }
+
+    //////////////////////
+
+    function register(req, res) {
+
+      var newUser = req.body;
+      newUser.roles = ['student'];
+
+      userModel
+      .findUserByUsername(newUser.username)
+      .then(
+        function(user){
+          if(user) {
+            res.json(null);
+          } else {
+            return userModel.createUser(newUser);
+          }
+        },
+        function(err){
+          res.status(400).send(err);
+        }
+      )
+      .then(
+        function(user){
+          if(user){
+            req.login(user, function(err) {
+              if(err) {
+                res.status(400).send(err);
+              } else {
+                res.json(user);
+              }
+            });
+          }
+        },
+        function(err){
+          res.status(400).send(err);
+        }
+      );
+    }
+
+    //////////////////////
+
+    function findAllUsers(req, res) {
+
+      userModel.findAllUsers()
+      .then(
+        function (users) {
+          res.json(users);
+        },
+        function (err) {
+          res.status(400).send(err);
+        }
+      );
+    }
+
+    //////////////////////
+
+    function isAdmin(user) {
+
+      if(user.roles.indexOf("admin") > 0) {
+        return true
+      }
+      return false;
     }
 
     //////////////////////
 
     function createUser(req, res) {
 
-      console.log("/api/assignment/createuser", "createUser");
+      var newUser = req.body;
+
+      if(newUser.roles && newUser.roles.length > 1) {
+        newUser.roles = newUser.roles.split(",");
+      } else {
+        newUser.roles = ["student"];
+      }
+
+      // first check if a user already exists with the username
+      userModel
+      .findUserByUsername(newUser.username)
+      .then(
+        function(user){
+          // if the user does not already exist
+          if(user == null) {
+            // create a new user
+            return userModel.createUser(newUser)
+            .then(
+              // fetch all the users
+              function(){
+                return userModel.findAllUsers();
+              },
+              function(err){
+                res.status(400).send(err);
+              }
+            );
+            // if the user already exists, then just fetch all the users
+          } else {
+            return userModel.findAllUsers();
+          }
+        },
+        function(err){
+          res.status(400).send(err);
+        }
+      )
+      .then(
+        function(users){
+          res.json(users);
+        },
+        function(){
+          res.status(400).send(err);
+        }
+      )
+    }
+
+
+    //////////////////////
+
+    function updateUser(req, res) {
 
       var user = req.body;
-      console.log(user);
+      var userId = req.params.userId;
 
-      userModel.createUser(user)
+      userModel.updateUser(userId, user)
       .then(
         function (doc) {
           res.json(doc);
         },
         function (err) {
           res.status(400).send(err);
-        })
+        });
       }
 
       //////////////////////
 
-      function findAll(req, res) {
+      function deleteUser(req, res){
 
-        console.log("/api/assignment/users");
+        var userId = req.params.userId;
 
-        userModel.findAll()
+        userModel
+        .deleteUser(userId)
         .then(
-          function (doc) {
-            res.json(doc);
+          function(user){
+            return userModel.findAllUsers();
           },
-          function (err) {
+          function(err){
             res.status(400).send(err);
-          }
-        );
-      }
+          })
 
-      //////////////////////
-
-      function findUserById(req, res) {
-        var userId = req.params.id;
-        var theUser = userModel.findById(userId);
-        res.json(theUser);
-      }
-
-      //////////////////////
-
-      function findUserByUsername(req, res) {
-
-        console.log("/api/assignment/user?username=username", "Username is", req.query.username);
-
-        userModel.findUserByUsername(req.query.username)
-        .then(
-          function (doc) {
-            res.json(doc);
-          },
-          function (err) {
-            res.status(400).send(err);
-          }
-        );
-      }
-
-      //////////////////////
-
-      function updateUser(req, res) {
-        console.log("/api/assignment/user/:id", "The user is", req.body);
-
-        userModel.updateUser(req.params.id, req.body)
-        .then(
-          function (doc) {
-            res.json(doc);
-          },
-          function (err) {
-            res.status(400).send(err);
-          });
-        }
-
-        //////////////////////
-
-        function deleteUser(req, res){
-
-          console.log("/api/assignment/user/:id");
-
-          userModel.deleteUser(req.params.id)
           .then(
-            function (doc) {
-              res.json(doc);
+            function(users){
+              console.log(users);
+              res.json(users);
             },
-            function (err) {
+            function(err){
               res.status(400).send(err);
             });
           }

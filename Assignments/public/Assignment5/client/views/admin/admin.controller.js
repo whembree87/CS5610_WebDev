@@ -3,14 +3,21 @@
   .module("FormBuilderApp")
   .controller("AdminController", AdminController);
 
-  function AdminController(UserService) {
+  function AdminController(UserService, $rootScope) {
 
     var vm = this;
+
     vm.addUser = addUser;
     vm.updateUser = updateUser;
     vm.removeUser = removeUser;
     vm.selectUser = selectUser;
     vm.selectedUserIndex = -1;
+
+    vm.sortUsers = sortUsers;
+    vm.sortByUsername = sortByUsername;
+    vm.sortByFirstName = sortByFirstName;
+    vm.sortByLastName = sortByLastName;
+    vm.ascending = true;
 
     ////////////////////////////////
 
@@ -19,10 +26,10 @@
       UserService
       .findAllUsers()
       .then(function(response){
-          vm.users =  response.data;;
+        console.log(response.data);
+        vm.users =  response.data;
       });
     }
-
     init();
 
     ////////////////////////////////
@@ -32,115 +39,134 @@
       UserService
       .createUser(newUser)
       .then(function(response){
-        var updatedUsers = response.data;
-        if(updatedUsers != null) {
-          vm.users = updatedUsers;
-        }
+          vm.users = response.data;
       });
     }
 
     ////////////////////////////////
 
     function updateUser(user) {
-      //console.log("updatedUser", getUser(user));
-      // var currentUser = getUser(user);
-      // console.log(currentUser);
-      console.log("The user is", user);
 
-
-      // I'm assuming usernames have to be unique, i.e., no duplicates
-      UserService
-      .findUserByUsername(user.username)
-      .then(function(response){
-        console.log("The user found is", response.data);
-        console.log("Password should be", user.password);
-        var theUser = response.data;
-        var updatedUser = {
-          _id: theUser._id,
-          firstName: theUser.firstName,
-          lastName: theUser.lastName,
-          username: user.username,
-          password: user.password,
-          emails: theUser.email,
-          roles: user.roles,
-          phones: user.phones
-        }
+      var userId = $rootScope.userId;
 
         UserService
-        .updateUser(theUser._id, updatedUser)
+        .updateUser(userId, user)
         .then(function(response){
           vm.users = response.data;
         });
-      });
     }
-
-  //   FormsService
-  //   .deleteFormById(formId)
-  //   .then(function(response){
-  //
-  //     FormsService
-  //     .findAllFormsForUser(response.data)
-  //     .then(function(response){
-  //       var userForms = response.data;
-  //       if(userForms != null) {
-  //         vm.forms = userForms;
-  //       }
-  //     });
-  //   });
-  // }
-
-    // function getUser(updatedUser){
-    //   var users = vm.users;
-    //   for(u in users){
-    //     if(users[u].username === updatedUser.username &&
-    //        users[u].password === updatedUser.password){
-    //          return users[u];
-    //     }
-    //   }
-    // }
-
-        // var theUser = response.data;
-        // var updatedUser = {
-          // _id: theUser._id,
-          // firstName: theUser.firstName,
-          // lastName: theUser.lastName,
-          // username: user.username,
-          // password: user.password,
-          // email: theUser.email,
-          // roles: user.roles
-        // }
-    //     if(theUser != null) {
-    //       UserService
-    //       .updateUser(theUser._id, updatedUser)
-    //       .then(function(response){
-    //         var users = response.data;
-    //         vm.users = users;
-    //       });
-    //     }
-    //   });
-    // }
 
     ////////////////////////////////
 
-    function removeUser(id) {
+    function removeUser(user) {
+
+      var userId = user._id;
 
       UserService
-      .deleteUserById(id)
+      .deleteUserById(userId)
       .then(function(response){
-          vm.users = response.data;
+        vm.users = response.data;
       });
     }
 
     ////////////////////////////////
 
     function selectUser(index, user) {
-      console.log("selectUser", user);
+
       vm.selectedUserIndex = index;
+      $rootScope.userId = user._id;
+
       vm.user = {
         username: user.username,
         password: user.password,
+        firstName: user.firstName,
+        lastName: user.lastName,
         roles: user.roles,
       }
+    }
+
+    ////////////////////////////////
+
+    function sortUsers(sortFunction) {
+
+      vm.users.sort(sortFunction);
+
+      vm.ascending = !vm.ascending;
+    }
+
+    ////////////////////////////////
+
+    function sortByUsername(name1, name2) {
+
+      var value = 0;
+
+      if (name1.username < name2.username){
+        value = -1
+      }
+
+      else if (name1.username === name2.username){
+        value = 0
+      }
+
+      else {
+        value = 1
+      }
+
+      if (vm.ascending){
+        value = value * -1
+      }
+
+      return value;
+    }
+
+    ////////////////////////////////
+
+    function sortByFirstName(name1, name2) {
+
+      var value = 0;
+
+      if (name1.firstName < name2.firstName){
+        value = -1
+      }
+
+      else if (name1.firstName === name2.firstName){
+        value = 0
+      }
+
+      else {
+        value = 1
+      }
+
+      if(vm.ascending){
+        value = value * -1
+      }
+
+      return value;
+    }
+
+    ////////////////////////////////
+
+    function sortByLastName(name1, name2) {
+
+      var value = 0;
+
+      if (name1.lastName < name2.lastName){
+        value = -1
+      }
+
+      else if (name1.lastName === name2.lastName){
+        value = 0
+      }
+
+      else {
+        value = 1
+      }
+
+      if(vm.ascending){
+        value = value * -1
+      }
+
+      return value;
     }
 
     ////////////////////////////////

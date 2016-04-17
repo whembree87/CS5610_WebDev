@@ -3,30 +3,31 @@
   .module("FormBuilderApp")
   .controller("LoginController", LoginController);
 
-  function LoginController(UserService, $location) {
+  function LoginController($location, $rootScope, UserService) {
 
     var vm = this;
     vm.login = login;
+  
+    ////////////////////////////////
 
-    function init() {
-
-    }
-    init();
-
-    function login(user) {
-
-      var username = user.username;
-      var password = user.password;
-
+    function login(user)
+    {
+      if(user)
       UserService
-      .findUserByCredentials(username, password)
-      .then(function(response){
-        if(response.data) {
-          theUser = response.data;
-          UserService.setCurrentUser(theUser);
+      .login(user)
+      .then(
+        function(response)
+        {
+          $rootScope.currentUser = response.data;
           $location.url("/profile");
+        },
+        function(err) {
+          vm.error = "Invalid Credentials";
         }
-      });
+      );
     }
-  }
+
+  ////////////////////////////////
+
+}
 })();

@@ -8,10 +8,14 @@
     var vm = this;
     vm.login = login;
 
+    ////////////////////////////////
+
     function init() {
 
     }
     init();
+
+    ////////////////////////////////
 
     function login(user) {
 

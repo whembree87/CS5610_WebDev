@@ -9,6 +9,8 @@
     vm.updateUser = updateUser;
     vm.currentUser = $rootScope.currentUser;
 
+    ////////////////////////////////
+
     function init(){
       var currentUser = UserService.getCurrentUser();
              if(currentUser == null) {
@@ -16,6 +18,8 @@
              }
     }
     return init();
+
+    ////////////////////////////////
 
     function updateUser(currentUser) {
       UserService
@@ -32,7 +36,7 @@
       }
     });
 
-
+////////////////////////////////
 
   }
 })();
