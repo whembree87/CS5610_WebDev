@@ -21,7 +21,7 @@ module.exports = function(db, mongoose) {
 
   // UserId NewForm --> All Forms
   function createNewForm(userId, newForm) {
-    var nForm = {
+    var newForm = {
       title: newForm.title,
       userId: userId,
       fields: [],
@@ -31,7 +31,7 @@ module.exports = function(db, mongoose) {
 
     var deferred = q.defer();
 
-    FormModel.create(nForm, function (err, doc) {
+    FormModel.create(newForm, function (err, doc) {
       if (err) {
         deferred.reject(err);
       }
@@ -46,6 +46,18 @@ module.exports = function(db, mongoose) {
   ////////////////////////////////
 
   function FindAll() {
+
+    var deferred = q.defer();
+
+    FormModel.find({}, function(err, doc) {
+      if (err) {
+        deferred.reject(err);
+      }
+      else {
+        deferred.resolve(doc);
+      }
+    });
+    return deferred.promise;
   }
 
   ////////////////////////////////
@@ -68,27 +80,27 @@ module.exports = function(db, mongoose) {
 
   function updateFormById(formId, form) {
     var newForm = {
-             userId: form.userId,
-             title: form.title,
-             fields: form.fields,
-             created: form.created,
-             updated: (new Date).getTime()
-         };
+      userId: form.userId,
+      title: form.title,
+      fields: form.fields,
+      created: form.created,
+      updated: (new Date).getTime()
+    };
 
-         var deferred = q.defer();
+    var deferred = q.defer();
 
-         form.updated = (new Date).getTime();
+    form.updated = (new Date).getTime();
 
-         FormModel.findByIdAndUpdate(formId, {$set:newForm}, {new: true, upsert: true}, function (err, doc) {
-             if (err) {
-                 deferred.reject(err);
-             }
-             else {
-                 deferred.resolve(doc);
-             }
-         });
-         return deferred.promise;
-     }
+    FormModel.findByIdAndUpdate(formId, {$set:newForm}, {new: true, upsert: true}, function (err, doc) {
+      if (err) {
+        deferred.reject(err);
+      }
+      else {
+        deferred.resolve(doc);
+      }
+    });
+    return deferred.promise;
+  }
 
   ////////////////////////////////
 
@@ -109,7 +121,20 @@ module.exports = function(db, mongoose) {
 
   ////////////////////////////////
 
-  function FindFormByTitle() {}
+  function FindFormByTitle(title) {
+
+    var deferred = q.defer();
+
+    FormModel.findOne({title: title}, function(err, doc) {
+      if (err) {
+        deferred.reject(err);
+      }
+      else {
+        deferred.resolve(doc);
+      }
+    });
+
+  }
 
   ////////////////////////////////
 

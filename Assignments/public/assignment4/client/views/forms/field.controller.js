@@ -33,23 +33,12 @@
       .then(function (response) {
         var form = response.data;
         if(form != null) {
-          // vm.form = form;
           formTitle = form.title;
           vm.formTitle = formTitle;
           console.log("Fields should be", form.fields);
           vm.fields = form.fields;
         }
       });
-
-      // // formId --> fields
-      // FieldService
-      // .getFieldsForForm(formId)
-      // .then(function (response) {
-      //   var fields = response.data;
-      //   if(fields != null) {
-      //     vm.fields = fields;
-      //   }
-      // });
     }
     init();
 

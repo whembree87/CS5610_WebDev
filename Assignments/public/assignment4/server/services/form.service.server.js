@@ -1,7 +1,6 @@
 module.exports = function(app, formModel) {
 
   app.get("/api/assignment/user/:userId/form", findAllFormsForUser);
-  // app.get("/api/assignment/form/:formId", );
   app.delete("/api/assignment/form/:formId", deleteForm);
   app.post("/api/assignment/user/:userId/form", createFormForUser);
   app.put("/api/assignment/form/:formId", updateFormById);

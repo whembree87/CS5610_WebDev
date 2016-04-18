@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());
 app.use(session({
-    secret: 'this is the secret',
+    secret: process.env.PASSPORT_SECRET,
     resave: true,
     saveUninitialized: true
 }));

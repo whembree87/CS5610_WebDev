@@ -7,7 +7,7 @@
 
     var vm = this;
     vm.login = login;
-  
+
     ////////////////////////////////
 
     function login(user)
