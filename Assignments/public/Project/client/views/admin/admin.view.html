@@ -1,0 +1,87 @@
+<h1 class="page-header">Admin</h1>
+<div class="table-responsive" ng-controller="AdminController as model">
+  <table class="table table-bordered table-striped">
+    <h3>Users</h3>
+    <!-- Table Head -->
+    <thead>
+      <tr>
+        <th>
+          Username
+          <a ng-click="model.sortUsers(model.sortByUsername)">
+            <span ng-hide="model.ascending" class="glyphicon glyphicon-triangle-top"></span>
+            <span ng-show="model.ascending" class="glyphicon glyphicon-triangle-bottom"></span>
+          </a>
+        </th>
+        <th>
+          Password
+        </th>
+        <th>
+          First Name
+          <a ng-click="model.sortUsers(model.sortByFirstName)">
+            <span ng-hide="model.ascending" class="glyphicon glyphicon-triangle-top"></span>
+            <span ng-show="model.ascending" class="glyphicon glyphicon-triangle-bottom"></span>
+          </a>
+        </th>
+        <th>
+          Last Name
+          <a ng-click="model.sortUsers(model.sortByLastName)">
+            <span ng-hide="model.ascending" class="glyphicon glyphicon-triangle-top"></span>
+            <span ng-show="model.ascending" class="glyphicon glyphicon-triangle-bottom"></span>
+          </a>
+        </th>
+        <th>
+          Roles
+        </th>
+        <th>
+          Action
+        </th>
+      </tr>
+    </thead>
+    <!-- Table Body -->
+    <tbody>
+      <tr>
+        <td>
+          <input type="text" ng-model="model.user.username" class="form-control" id="username" placeholder="username">
+        </td>
+        <td>
+          <input type="password" ng-model="model.user.password" class="form-control" id="password" placeholder="password">
+        </td>
+        <td>
+          <input type="text" ng-model="model.user.firstName" class="form-control" id="firstname" placeholder="first name">
+        </td>
+        <td>
+          <input type="text" ng-model="model.user.lastName" class="form-control" id="lastname" placeholder="last name">
+        </td>
+        <td>
+          <input type="text" ng-model="model.user.roles" class="form-control" id="role" placeholder="role1, role2">
+        </td>
+        <td class="nowrap">
+          <button ng-click="model.addUser(model.user)" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <button ng-click="model.updateUser(model.user)" class="btn btn-info">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr ng-repeat="user in model.users track by $index" ng-class="{'success' : $index == model.selectedUserIndex}">
+      <td>{{user.username}}</td>
+      <td></td>
+      <td>{{user.firstName}}</td>
+      <td>{{user.lastName}}</td>
+      <td>{{user.roles.toString()}}</td>
+      <td>
+        <div class="nowrap">
+          <button ng-click="model.removeUser(user)" class="btn btn-danger">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+          <button ng-click="model.selectUser($index, user)" class="btn btn-warning">
+            <span class="glyphicon glyphicon-cog"></span>
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

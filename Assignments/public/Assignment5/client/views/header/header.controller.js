@@ -17,8 +17,7 @@
 
     //////////////////////
 
-    function logout()
-    {
+    function logout() {
       UserService
       .logout()
       .then(
@@ -31,11 +30,6 @@
         }
       );
     }
-
-    // function logout() {
-    //   UserService.setCurrentUser(null);
-    //   $location.url("/home");
-    // }
 
     //////////////////////
 

@@ -1,0 +1,43 @@
+<h1 class="page-header">MyVocabulary</h1>
+
+<table class="table table-striped" ng-controller="VocabularyController as model">
+
+  <thead>
+    <tr>
+      <th>English</th>
+      <th>German</th>
+      <th>&nbsp;</th>
+    </tr>
+    <tr>
+      <th><input ng-model="model.newWord.english" class="form-control" placeholder="..."/></th>
+      <th><input ng-model="model.newWord.german" class="form-control" placeholder="..."/></th>
+      <th>
+        <th>
+          <button ng-click="model.addWord(newWord)" class="btn btn-primary">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <button ng-click="model.editWord(newWord)" class="btn btn-success">
+              <span class="glyphicon glyphicon-ok"></span>
+          </button>
+        </th>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr  ng-repeat="userWord in model.userWords" ng-class="{'success' : $index == selectedFormIndex}">
+    <td>{{}}</td>
+    <td>{{userWord}}</td>
+    <td>{{}}</td>
+    <td class="nowrap">
+      <button ng-click="model.deleteWord($index)" class="btn btn-danger">
+        <span class="glyphicon glyphicon-remove"></span>
+      </button>
+      <button ng-click="model.selectWord($index)" class="btn btn-warning">
+        <span class="glyphicon glyphicon-cog"></span>
+      </button>
+    </td>
+  </tr>
+</tbody>
+
+</table>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Gesamt">
+<head>
+  <meta charset="UTF-8">
+  <!-- Bootstrap -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-2.2.1.js"></script>
+  <!-- AngularJS -->
+  <script src="js/angular.min.js"></script>
+  <!-- Angular Routing -->
+  <script src="js/angular-route.min.js"></script>
+  <!-- App and Config -->
+  <script src="app.js"></script>
+  <script src="config.js"></script>
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="css/dashboard.css"/>
+  <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+  <!-- Services -->
+  <script src="services/user.service.client.js"></script>
+  <script src="services/dictionary.service.client.js"></script>
+  <!-- Controllers -->
+  <script src="views/home/home.controller.js"></script>
+  <script src="views/admin/admin.controller.js"></script>
+  <script src="views/header/header.controller.js"></script>
+  <script src="views/main/main.controller.js"></script>
+  <script src="views/sidebar/sidebar.controller.js"></script>
+  <script src="views/users/login.controller.js"></script>
+  <script src="views/users/profile.controller.js"></script>
+  <script src="views/users/register.controller.js"></script>
+  <script src="views/vocabulary/vocabulary.controller.js"></script>
+  <script src="views/dictionary/germanDictionary.controller.js"></script>
+  <script src="views/dictionary/englishDictionary.controller.js"></script>
+</head>
+
+<body ng-controller="MainController">
+  <!-- Header -->
+  <ng-include src=" 'views/header/header.view.html' "></ng-include>
+  <!-- Sidebar -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar">
+        <ng-include src=" 'views/sidebar/sidebar.view.html' "></ng-include>
+      </div>
+    </div>
+    <!-- Dynamically loaded pages -->
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-view>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<ul class="nav nav-sidebar">
+
+  <li ng-class="{'active bg-info' : $location.url() == '/home'}">
+    <a href="#/home">
+      Home
+    </a>
+  </li>
+
+  <li ng-class="{'active bg-info' : $location.url() == '/vocabulary'}" ng-show="currentUser">
+    <a href="#/vocabulary">
+      My Vocabulary
+    </a>
+  </li>
+
+  <li href="#/profile" ng-class="{'active bg-info' : $location.url() == '/profile'}" ng-show="currentUser">
+    <a>
+      Profile
+    </a>
+  </li>
+
+  <li ng-show="currentUser.roles.indexOf('admin') >= 0" ng-class="{'active bg-info': $location.url() === '/admin'}">
+    <a href="#/admin">
+      Admin
+    </a>
+  </li>
+
+</ul>

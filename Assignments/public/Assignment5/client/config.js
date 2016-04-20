@@ -3,7 +3,7 @@
   .module("FormBuilderApp")
   .config(Configure);
 
-  function Configure($routeProvider, $httpProvider) {
+  function Configure($routeProvider, $httpProvider, $rootScope) {
     $routeProvider
     .when("/home",{
       templateUrl: "views/home/home.view.html",

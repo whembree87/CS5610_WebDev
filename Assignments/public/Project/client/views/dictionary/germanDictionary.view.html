@@ -1,0 +1,30 @@
+<h1 class="page-header">Dictionary</h1>
+
+<ul class="nav nav-pills">
+  <li role="presentation" class="active"><a href="#">German to English</a></li>
+  <li role="presentation"><a href="#/englishDictionary">English to German</a></li>
+</ul>
+</br>
+
+<form ng-controller="GermanDictionaryController as model">
+
+  <fieldset class="form-group">
+    <input ng-model="searchWord"  type="text" class="form-control" placeholder="Enter word"></input>
+  </br>
+  <button ng-click="model.searchDictionary(searchWord)" class="btn btn-primary btn-block">Search</button>
+</fieldset>
+
+<div  class="col-sm-12 col-md-12">
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <tbody>
+        <tr ng-repeat="def in model.data.tuc">
+          <td>{{def.phrase.text}}</td>
+          <td><button ng-click="model.addEnglishTranslation(searchWord, def)" ng-show="currentUser" class="btn btn-success btn-block">Add to MyVocabulary</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</form>
