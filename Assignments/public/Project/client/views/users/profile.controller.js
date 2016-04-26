@@ -3,11 +3,11 @@
   .module("Gesamt")
   .controller("ProfileController", profileController);
 
-  function profileController($rootScope, $location, UserService) {
+  function profileController($location, UserService, $scope) {
+
+    $scope.message = null;
 
     var vm = this;
-    vm.error = null;
-    vm.message = null;
 
     vm.updateUser = updateUser;
 
@@ -15,30 +15,32 @@
 
     function init(){
 
-      vm.currentUser = UserService.getCurrentUser();
-      console.log( UserService.getCurrentUser());
+      var user = UserService.getCurrentUser();
 
-    }
+      UserService
+      .getUserByCredentials(user)
+      .then(
+        function(response) {
+          vm.currentUser = response.data;
+        });
+      }
+
     return init();
 
     ////////////////////////////////
 
     function updateUser (user) {
 
-      vm.error = null;
-      vm.message = null;
-
-      vm.currentUser = UserService.updateUser(user);
-
-      if (user) {
-        vm.message = "User updated successfully";
-        UserService.setCurrentUser(vm.currentUser);
-      } else {
-        vm.message = "Unable to update the user";
+      UserService
+      .updateProfile(user._id, user)
+      .then(
+        function(response) {
+          $scope.message = "User updated successfully";
+          UserService.setCurrentUser(response.data);
+        });
       }
+
+      ////////////////////////////////
+
     }
-
-    ////////////////////////////////
-
-  }
-})();
+  })();

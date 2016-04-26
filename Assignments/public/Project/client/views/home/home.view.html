@@ -1,20 +1,15 @@
-<h1 class="page-header">GESAMT</h1>
-
-<h3>
-  <em>
-    Since long, my gentlemen, have I the passionate longing nursed a speech on German to hold, but one has me not permitted.
-  </em>
-</h3>
-<h3>
-  <em>
-    ~ Mark Twain
-  </em>
-</h3>
 </br>
 </br>
-
+</br>
 <div ng-controller="HomeController as model">
   <button ng-click="model.transitionToDictionary()" type="button" class="btn btn-primary btn-lg btn-block">
     Dictionary
+  </button>
+</div>
+</br>
+</br>
+<div ng-show="currentUser" ng-controller="HomeController as model">
+  <button ng-click="model.transitionToTest()" type="button" class="btn btn-primary btn-lg btn-block">
+    Vocabulary Test
   </button>
 </div>

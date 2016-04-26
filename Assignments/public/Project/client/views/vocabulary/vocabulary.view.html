@@ -4,40 +4,56 @@
 
   <thead>
     <tr>
-      <th>English</th>
-      <th>German</th>
-      <th>&nbsp;</th>
-    </tr>
-    <tr>
-      <th><input ng-model="model.newWord.english" class="form-control" placeholder="..."/></th>
-      <th><input ng-model="model.newWord.german" class="form-control" placeholder="..."/></th>
+
       <th>
-        <th>
-          <button ng-click="model.addWord(newWord)" class="btn btn-primary">
-            <span class="glyphicon glyphicon-plus"></span>
-          </button>
-          <button ng-click="model.editWord(newWord)" class="btn btn-success">
-              <span class="glyphicon glyphicon-ok"></span>
-          </button>
+        English
+        <a ng-click="model.sortWords(model.sortByEnglish)">
+          <span ng-hide="model.ascending" class="glyphicon glyphicon-triangle-top"></span>
+          <span ng-show="model.ascending" class="glyphicon glyphicon-triangle-bottom"></span>
         </th>
-      </th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <tr  ng-repeat="userWord in model.userWords" ng-class="{'success' : $index == selectedFormIndex}">
-    <td>{{}}</td>
-    <td>{{userWord}}</td>
-    <td>{{}}</td>
-    <td class="nowrap">
-      <button ng-click="model.deleteWord($index)" class="btn btn-danger">
-        <span class="glyphicon glyphicon-remove"></span>
-      </button>
-      <button ng-click="model.selectWord($index)" class="btn btn-warning">
-        <span class="glyphicon glyphicon-cog"></span>
-      </button>
-    </td>
-  </tr>
-</tbody>
+        <th>
+          German
+          <a ng-click="model.sortWords(model.sortByGerman)">
+            <span ng-hide="model.ascending" class="glyphicon glyphicon-triangle-top"></span>
+            <span ng-show="model.ascending" class="glyphicon glyphicon-triangle-bottom"></span>
+          </th>
 
-</table>
+          <th>&nbsp;</th>
+
+          <th>&nbsp;</th>
+
+        </tr>
+        <tr class="nowrap">
+          <th><input ng-model="model.newWord.english" class="form-control" placeholder="..."/></th>
+          <th><input ng-model="model.newWord.german" class="form-control" placeholder="..."/></th>
+          <th>
+            <th>
+              <button ng-click="model.addWord(model.newWord)" class="btn btn-primary">
+                <span class="glyphicon glyphicon-plus"></span>
+              </button>
+              <button ng-click="model.editWord(model.newWord)" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+            </th>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-repeat="userWord in model.userWords" ng-class="{'success' : $index == model.selectedWordIndex}">
+          <td>{{userWord.english}}</td>
+          <td>{{userWord.german}}</td>
+          <td></td>
+          <td class="nowrap">
+            <button ng-click="model.removeWord(userWord)" class="btn btn-danger">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            <button ng-click="model.selectWord($index, userWord)" class="btn btn-warning">
+              <span class="glyphicon glyphicon-cog"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>

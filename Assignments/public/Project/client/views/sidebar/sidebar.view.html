@@ -8,12 +8,12 @@
 
   <li ng-class="{'active bg-info' : $location.url() == '/vocabulary'}" ng-show="currentUser">
     <a href="#/vocabulary">
-      My Vocabulary
+      MyVocabulary
     </a>
   </li>
 
-  <li href="#/profile" ng-class="{'active bg-info' : $location.url() == '/profile'}" ng-show="currentUser">
-    <a>
+  <li ng-class="{'active bg-info' : $location.url() == '/profile'}" ng-show="currentUser">
+    <a href="#/profile">
       Profile
     </a>
   </li>

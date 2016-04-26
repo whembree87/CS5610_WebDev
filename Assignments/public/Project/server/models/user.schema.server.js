@@ -5,7 +5,6 @@ module.exports = function (mongoose) {
     password: String,
     firstName: String,
     lastName: String,
-    vocabulary: [String],
     emails: [String],
     phones: [String],
     roles: [String]

@@ -21,7 +21,6 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// var connectionString = 'mongodb://127.0.0.1:27017/Assignment4/';
 var connectionString = 'mongodb://127.0.0.1:27017/Project/';
 
 if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
@@ -35,8 +34,7 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
 var db = mongoose.connect(connectionString);
 
 app.use(express.static(__dirname + '/public'));
-//var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 //require("./public/assignment5/server/app.js")(app, db, mongoose);

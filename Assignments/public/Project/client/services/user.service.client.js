@@ -15,7 +15,10 @@
       findAllUsers : findAllUsers,
       createUser : createUser,
       deleteUserById : deleteUserById,
-      updateUser : updateUser
+      updateUser : updateUser,
+      updateProfile : updateProfile,
+      getUserById : getUserById,
+      getUserByCredentials : getUserByCredentials
 
     };
 
@@ -59,6 +62,19 @@
 
     ///////////////////////////////
 
+    function updateProfile(userId, user) {
+      console.log(userId, user);
+      return $http.put("/api/assignment/user/profile/" + userId, user);
+    }
+
+    ///////////////////////////////
+
+    function getUserById(userId) {
+      return $http.get("/api/assignment/user/" + userId);
+    }
+
+    ///////////////////////////////
+
     function getCurrentUser() {
       return $rootScope.currentUser;
     }
@@ -73,6 +89,16 @@
 
     function register(user) {
       return $http.post("/api/project/register", user);
+    }
+
+    ///////////////////////////////
+
+    function getUserByCredentials(user) {
+
+      var username = user.username;
+      var password = user.password;
+
+      return $http.get("/api/project/user/credentials/" + username + "/" + password);
     }
 
     ///////////////////////////////

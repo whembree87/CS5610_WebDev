@@ -1,0 +1,33 @@
+<h1 class="page-header">Vocabulary Test</h1>
+
+<ul class="nav nav-pills">
+  <li role="presentation" class="active"><a href="#">German to English</a></li>
+  <li role="presentation"><a href="#/germanTest">English to German</a></li>
+</ul>
+</br>
+
+<table class="table table-striped" ng-controller="EnglishTestController as model">
+
+  <thead>
+    <tr>
+      <th>
+        German
+      </th>
+      <th>
+        English
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="userWord in model.userWords">
+      <td>{{userWord.german}}</td>
+      <td class="nowrap">
+        <button ng-click="model.checkWord(userWord)" class="btn btn-info">
+          <span class="glyphicon glyphicon-question-sign"></span>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+
+</table>

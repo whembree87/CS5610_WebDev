@@ -3,7 +3,7 @@
   .module("Gesamt")
   .controller("LoginController", LoginController);
 
-  function LoginController($location, $scope, $rootScope, UserService) {
+  function LoginController($location, $rootScope, $scope, UserService) {
 
     $scope.message = null;
 
@@ -13,12 +13,12 @@
     ///////////////////////////////////
 
     function login(user){
+      
       if(user)
       UserService
       .login(user)
       .then(
-        function(response)
-        {
+        function(response){
           $rootScope.currentUser = response.data;
           $location.url("/profile");
         },

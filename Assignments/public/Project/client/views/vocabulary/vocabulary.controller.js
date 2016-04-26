@@ -3,11 +3,19 @@
   .module("Gesamt")
   .controller("VocabularyController", VocabularyController);
 
-  function VocabularyController($scope, $rootScope, UserService) {
+  function VocabularyController($scope, $rootScope, VocabularyService) {
 
     var vm = this;
 
+    vm.addWord    = addWord;
     vm.selectWord = selectWord;
+    vm.removeWord = removeWord;
+    vm.editWord   = editWord;
+
+    vm.sortWords     = sortWords;
+    vm.sortByEnglish = sortByEnglish;
+    vm.sortByGerman  = sortByGerman;
+    vm.ascending     = true;
 
     /////////////////////////////////
 
@@ -15,63 +23,185 @@
 
       var user = $rootScope.currentUser;
 
-      vm.userWords = user.vocabulary;
+      VocabularyService
+      .getVocabByUserId(user._id)
+      .then(
+        function(response) {
+
+          vm.userWords = response.data;
+
+        });
+      }
+
+      init();
+
+      /////////////////////////////////
+
+      function addWord(newWord) {
+
+        var user = $rootScope.currentUser;
+
+        VocabularyService
+        .addWord(newWord)
+        .then(
+          function(response) {
+
+            vm.userWords = response.data;
+
+          }
+        ),
+
+        VocabularyService
+        .getVocabByUserId(user._id)
+        .then(
+          function(response) {
+
+            vm.userWords = response.data;
+
+          }
+        );
+      }
+
+      /////////////////////////////////
+
+      var selectedWordIndex = -1;
+
+      function selectWord(index, word) {
+
+        vm.selectedWordIndex = index;
+        $scope.word = word;
+
+        vm.newWord = {
+          english: word.english,
+          german: word.german,
+        }
+      }
+
+      /////////////////////////////////
+
+      function removeWord(word) {
+
+        var wordId = word._id;
+        var user = $rootScope.currentUser;
+
+        VocabularyService
+        .removeWord(wordId)
+        .then(
+          function(response) {
+
+            vm.userWords = response.data;
+
+          }
+        ),
+
+        VocabularyService
+        .getVocabByUserId(user._id)
+        .then(
+          function(response) {
+
+            vm.userWords = response.data;
+
+          }
+        );
+      }
+
+
+      /////////////////////////////////
+
+      function editWord(word) {
+
+        var wordId = $scope.word._id;
+        var user = $rootScope.currentUser;
+
+        var newWord = {
+          _id : wordId,
+          english : word.english,
+          german : word.german
+        }
+
+        VocabularyService
+        .updateWord(newWord)
+        .then(
+          function(response) {
+
+            vm.userWords = response.data;
+
+          }
+        ),
+
+        VocabularyService
+        .getVocabByUserId(user._id)
+        .then(
+          function(response) {
+
+            vm.userWords = response.data;
+
+          }
+        );
+      }
+
+      /////////////////////////////////
+
+      function sortWords(sortFunction) {
+
+        vm.userWords.sort(sortFunction);
+
+        vm.ascending = !vm.ascending;
+
+      }
+
+
+      /////////////////////////////////
+
+      function sortByEnglish(word1, word2) {
+
+        var value = 0;
+
+        if (word1.english < word2.english){
+          value = -1
+        }
+
+        else if (word1.english === word2.english){
+          value = 0
+        }
+
+        else {
+          value = 1
+        }
+
+        if (vm.ascending){
+          value = value * -1
+        }
+
+        return value;
+      }
+
+      /////////////////////////////////
+
+      function sortByGerman(word1, word2) {
+
+        var value = 0;
+
+        if (word1.german < word2.german){
+          value = -1
+        }
+
+        else if (word1.german === word2.german){
+          value = 0
+        }
+
+        else {
+          value = 1
+        }
+
+        if(vm.ascending){
+          value = value * -1
+        }
+
+        return value;
+      }
+
+      /////////////////////////////////
 
     }
-    init();
-
-    /////////////////////////////////
-
-    // // Get the user's vocabulary list
-    // var theUser = UserService.getCurrentUser();
-    // var theUserId = theUser.id;
-    // var userWords = findAllFormsById(theUserId);
-    //
-    // function findAllFormsById(theUserId) {
-    //   var wordsList = [];
-    //   for (var w in words) {
-    //     if (words[w].userId === theUserId) {
-    //       wordsList.push(words[w]);
-    //     }
-    //   }
-    //   return wordsList;
-    // }
-    //
-    // $scope.userWords = userWords;
-    //
-    // // Event Handler Declarations
-    // $scope.addWord = addWord;
-    // $scope.editWord = editWord;
-    // $scope.deleteWord = deleteWord;
-    // $scope.selectWord = selectWord;
-    //
-    // // Event Handler Implementation
-    // function addWord(word) {
-    //   var userWord = {
-    //     english: word.english,
-    //     german: word.german
-    //   }
-    //   $scope.userWords.push(userWord);
-    // }
-    //
-    // function editWord(word) {
-    //   $scope.userWords[$scope.selectedFormIndex].english = word.english;
-    //   $scope.userWords[$scope.selectedFormIndex].german = word.german;
-    // }
-    //
-    // function deleteWord(index) {
-    //   $scope.userWords.splice(index, 1);
-    // }
-    //
-    var selectedWordIndex = -1;
-
-    function selectWord(index) {
-      $scope.selectedWordIndex = index;
-      $scope.newWord = {
-        english: $scope.userWords[index].english,
-        german: $scope.userWords[index].german,
-      };
-    }
-
-  }
-})();
+  })();

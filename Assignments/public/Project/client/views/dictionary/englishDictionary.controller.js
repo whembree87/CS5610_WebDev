@@ -3,33 +3,48 @@
   .module("Gesamt")
   .controller("EnglishDictionaryController", EnglishDictionaryController);
 
-  function EnglishDictionaryController($location, DictionaryService) {
+  function EnglishDictionaryController
+  (
+    $rootScope,
+    $location,
+    DictionaryService,
+    VocabularyService
+  ) {
 
-    var vm = this;
-    vm.searchEnglishDictionary = searchEnglishDictionary;
-    vm.addGermanTranslation = addGermanTranslation;
+      var vm = this;
+      vm.searchEnglishDictionary = searchEnglishDictionary;
+      vm.addWordToVocab = addWordToVocab;
 
-    ///////////////////////////////
+      ///////////////////////////////
 
-    function searchEnglishDictionary(word) {
+      function searchEnglishDictionary(word) {
 
-      DictionaryService
-      .translateEnglish(word)
-      .then(function (response) {
+        DictionaryService
+        .translateEnglish(word)
+        .then(function (response) {
 
-        vm.data = response.data;
+          vm.data = response.data;
 
-      });
+        });
+      }
+
+      ///////////////////////////////
+
+      function addWordToVocab(englishWord, germanWord) {
+
+        var userId = $rootScope.currentUser._id;
+
+        var newWord = {
+          userId  : userId,
+          english : englishWord,
+          german  : germanWord
+        }
+
+        VocabularyService.addWord(newWord)
+
+      }
+
+      ///////////////////////////////
+
     }
-
-    ///////////////////////////////
-
-    function addGermanTranslation(searchWord, translation) {
-      console.log(searchWord, translation);
-    }
-
-    ///////////////////////////////
-
-
-  }
-})();
+  })();

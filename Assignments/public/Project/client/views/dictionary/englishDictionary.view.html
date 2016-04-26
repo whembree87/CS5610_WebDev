@@ -20,7 +20,7 @@
     <tbody>
         <tr ng-repeat="def in model.data.tuc">
         <td>{{def.phrase.text}}</td>
-        <td><button ng-click="model.addGermanTranslation(searchWord, def)" ng-show="currentUser" class="btn btn-success btn-block">Add to MyVocabulary</button></td>
+        <td><button ng-click="model.addWordToVocab(searchWord, def.phrase.text)" ng-show="currentUser" class="btn btn-success btn-block">Add to MyVocabulary</button></td>
       </tr>
     </tbody>
 

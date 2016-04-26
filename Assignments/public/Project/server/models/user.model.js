@@ -1,6 +1,6 @@
 var q = require("q");
 
-module.exports = function(db, mongoose, $http) {
+module.exports = function(db, mongoose) {
 
   var UserSchema = require('./user.schema.server.js')(mongoose);
   var UserModel = mongoose.model("Users", UserSchema);
@@ -12,7 +12,7 @@ module.exports = function(db, mongoose, $http) {
     updateUser: updateUser,
     deleteUser: deleteUser,
     findUserByUsername: findUserByUsername,
-    findUserByCredentials: findUserByCredentials,
+    findUserByCredentials: findUserByCredentials
   };
 
   return api;

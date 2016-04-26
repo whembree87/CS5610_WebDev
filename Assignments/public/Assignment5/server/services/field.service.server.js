@@ -2,7 +2,6 @@ module.exports = function(app, fieldModel) {
 
   app.get("/api/assignment/form/:formId/field", getFieldsForForm);
   app.get("/api/assignment/form/:formId", getFormByFormId);
-  // app.get("/api/assignment/form/:formId/field/:fieldId", getFieldForForm);
   app.delete("/api/assignment/form/:formId/field/:fieldId", deleteFieldFromForm);
   app.post("/api/assignment/form/:formId/field", createFieldForForm);
   app.put("/api/assignment/form/:formId/field/:fieldId", updateField);
@@ -66,18 +65,15 @@ module.exports = function(app, fieldModel) {
                 }
             );
     }
-    // var formId = req.params.formId;
-    // var fieldId = req.params.fieldId;
-    // res.json(fieldModel.deleteFieldFromForm(formId, fieldId))
 
   /////////////////////////////
 
   function updateField(req, res) {
+
     var formId = req.params.formId;
-    var fieldId = req.params.fieldId;
     var field = req.body;
-    console.log(formId, fieldId, field);
-    res.json(fieldModel.updateField(formId, fieldId, field));
+
+    res.json(fieldModel.updateField(formId, field));
   }
 
     /////////////////////////////

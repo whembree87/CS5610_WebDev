@@ -43,29 +43,60 @@ module.exports = function(db, mongoose, formModel) {
 
   /////////////////////////////
 
-  // FormId FieldId --> All Forms
-  function deleteFieldFromForm(formId, fieldId) {}
+  function deleteFieldFromForm(formId, fieldId){
 
-  /////////////////////////////
-
-  function updateField(formId, fieldId, field) {}
-
-  /////////////////////////////
-
-  function getFieldsForForm(formId) {
     var deferred = q.defer();
 
-    FieldModel.findById(formId, function (err, doc) {
-      if (err) {
-        deferred.reject(err);
-      }
-      else {
-        deferred.resolve(doc);
-      }
-    });
-    return deferred.promise;
+    FieldModel.findByIdAndUpdate(formId, {
+      $pull: {fields:
+        {_id: fieldId}
+      }},
+      function (err, doc) {
+        if (err) {
+          deferred.reject(err);
+        }
+        else {
+          deferred.resolve(doc);
+        }
+      });
+
+      return deferred.promise;
+    }
+
+    /////////////////////////////
+
+    function updateField(formId, field) {
+
+      var deferred = q.defer();
+
+      FieldModel.update({_id: formId, "fields._id" : field._id}, {$set: {"fields.$": field}}, {new: true}, function (err, doc) {
+        if (err) {
+          deferred.reject(err);
+        }
+        else {
+          deferred.resolve(doc)
+        }
+      });
+      return deferred.promise;
+    }
+
+    /////////////////////////////
+
+    function getFieldsForForm(formId) {
+
+      var deferred = q.defer();
+
+      FieldModel.findById(formId, function (err, doc) {
+        if (err) {
+          deferred.reject(err);
+        }
+        else {
+          deferred.resolve(doc);
+        }
+      });
+      return deferred.promise;
+    }
+
+    /////////////////////////////
+
   }
-
-  /////////////////////////////
-
-}

@@ -26,8 +26,9 @@
       UserService
       .findAllUsers()
       .then(function(response){
-        console.log(response.data);
+
         vm.users =  response.data;
+
       });
     }
     init();
@@ -52,7 +53,17 @@
         UserService
         .updateUser(userId, user)
         .then(function(response){
+
           vm.users = response.data;
+          
+        }),
+
+        UserService
+        .findAllUsers()
+        .then(function(response){
+
+          vm.users =  response.data;
+
         });
     }
 

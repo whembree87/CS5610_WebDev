@@ -3,7 +3,7 @@
   .module("Gesamt")
   .controller("RegisterController", RegisterController);
 
-  function RegisterController($location, $scope, UserService) {
+  function RegisterController($location, $scope, UserService, $rootScope) {
 
     $scope.message = null;
 
@@ -41,17 +41,16 @@
         (function(response){
 
           var currentUser = response.data;
-          console.log(currentUser);
 
           if(currentUser != null) {
-            UserService.setCurrentUser(currentUser);
+            $rootScope.currentUser = user;
             $location.url("/profile");
+          } else {
+            $scope.message = "User already exists";
           }
         },
-
         function(err) {
-          $scope.message = "User already exists";
-          return;
+          console.log(err);
         }
       );
     }
