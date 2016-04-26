@@ -17,7 +17,6 @@ module.exports = function(db, mongoose, formModel) {
 
   /////////////////////////////
 
-  // formId --> form
   function getFormByFormId(formId) {
     var form = formModel.getFormByFormId(formId);
     return form;

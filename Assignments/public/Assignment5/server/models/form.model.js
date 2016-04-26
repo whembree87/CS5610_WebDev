@@ -19,7 +19,6 @@ module.exports = function(db, mongoose) {
 
   ////////////////////////////////
 
-  // UserId NewForm --> All Forms
   function createNewForm(userId, newForm) {
     var nForm = {
       title: newForm.title,
@@ -46,7 +45,19 @@ module.exports = function(db, mongoose) {
   ////////////////////////////////
 
   function FindAll() {
-  }
+
+    var deferred = q.defer();
+
+        FormModel.find({}, function(err, doc) {
+            if (err) {
+                deferred.reject(err);
+            }
+            else {
+                deferred.resolve(doc);
+            }
+        });
+        return deferred.promise;
+    }
 
   ////////////////////////////////
 
@@ -109,11 +120,22 @@ module.exports = function(db, mongoose) {
 
   ////////////////////////////////
 
-  function FindFormByTitle() {}
+  function FindFormByTitle(title) {
+    var deferred = q.defer();
+
+        FormModel.findOne({title: title}, function(err, doc) {
+            if (err) {
+                deferred.reject(err);
+            }
+            else {
+                deferred.resolve(doc);
+            }
+        });
+
+    }
 
   ////////////////////////////////
 
-  // formId --> form
   function getFormByFormId(id) {
     var deferred = q.defer();
 
