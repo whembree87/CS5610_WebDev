@@ -5,6 +5,10 @@ module.exports = function(app, userModel, bcrypt) {
 
   var auth = authorized;
 
+  passport.use(new LocalStrategy(localStrategy));
+  passport.serializeUser(serializeUser);
+  passport.deserializeUser(deserializeUser);
+
   app.post  ("/api/project/login", passport.authenticate('local'), login);
   app.post  ("/api/project/logout", logout);
   app.post  ("/api/project/register", register);
@@ -33,18 +37,17 @@ module.exports = function(app, userModel, bcrypt) {
 
   //////////////////////
 
-  passport.use(new LocalStrategy(localStrategy));
-  passport.serializeUser(serializeUser);
-  passport.deserializeUser(deserializeUser);
-
   function localStrategy(username, password, done) {
 
     userModel
-    .findUserByCredentials({username: username, password: password})
+    .findUserByUsername(username)
     .then(
       function(user) {
-        if (!user) { return done(null, false); }
-        return done(null, user);
+        if(user && bcrypt.compareSync(password, user.password)){
+          return done(null, user);
+        } else {
+          return done(null, false);
+        }
       },
       function(err) {
         if (err) { return done(err); }
@@ -117,7 +120,6 @@ module.exports = function(app, userModel, bcrypt) {
 
   }
 
-
   //////////////////////
 
   function loggedin(req, res) {
@@ -132,11 +134,11 @@ module.exports = function(app, userModel, bcrypt) {
 
     var user = req.body;
 
-    if(user.username == 'alice'){
+    if(user.username == 'laura'){
 
       newUser = {
         username : user.username,
-        password : user.password,
+        password : bcrypt.hashSync(user.password),
         roles    : "admin"
       }
 
@@ -175,7 +177,7 @@ module.exports = function(app, userModel, bcrypt) {
 
       newUser = {
         username : user.username,
-        password : user.password,
+        password : bcrypt.hashSync(user.password),
         roles    : "student"
       }
 
@@ -289,8 +291,10 @@ module.exports = function(app, userModel, bcrypt) {
 
   function updateUserAdmin(req, res) {
 
-    var user = req.body;
+    var user   = req.body;
     var userId = req.params.userId;
+
+    user.password = bcrypt.hashSync(user.password);
 
     userModel.updateUser(userId, user)
     .then(
@@ -300,6 +304,7 @@ module.exports = function(app, userModel, bcrypt) {
       function (err) {
         res.status(400).send(err);
       });
+
     }
 
     //////////////////////
@@ -322,8 +327,10 @@ module.exports = function(app, userModel, bcrypt) {
 
       function updateProfile(req, res) {
 
-        var user = req.body;
+        var user   = req.body;
         var userId = req.params.userId;
+
+        user.password = bcrypt.hashSync(user.password);
 
         userModel.updateUser(userId, user)
         .then(

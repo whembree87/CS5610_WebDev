@@ -7,15 +7,16 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt-nodejs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());
 app.use(session({
     secret: "this is the secret",
-    // process.env.PASSPORT_SECRET
-    resave: true,
-    saveUninitialized: true
+    // secret : process.env.PASSPORT_SECRET,
+    resave : true,
+    saveUninitialized : true
 }));
 app.use(cookieParser());
 app.use(passport.initialize());
@@ -33,11 +34,11 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
 
 var db = mongoose.connect(connectionString);
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public/Landing_Page'));
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 //require("./public/assignment5/server/app.js")(app, db, mongoose);
-require("./public/Project/server/app.js")(app, db, mongoose);
+require("./public/Project/server/app.js")(app, db, mongoose, bcrypt);
 
 app.listen(port, ipaddress);

@@ -15,10 +15,11 @@
 
     function init(){
 
-      var user = UserService.getCurrentUser();
+      var user   = UserService.getCurrentUser();
+      var userId = user._id;
 
       UserService
-      .getUserByCredentials(user)
+      .getUserById(userId)
       .then(
         function(response) {
           vm.currentUser = response.data;

@@ -1,5 +1,4 @@
 var q = require("q");
-var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(db, mongoose) {
 
