@@ -3,7 +3,7 @@
   .module("Gesamt")
   .controller("GermanTestController", GermanTestController);
 
-  function GermanTestController($rootScope, $scope, VocabularyService) {
+  function GermanTestController($rootScope, VocabularyService) {
 
     //////////////////////////
 
@@ -33,13 +33,7 @@
 
       function checkWord(word){
 
-        console.log(word.german);
-
-        // vm.userWord = word.german;
-
         vm.userWord = word.german;
-        //
-        // $scope.theWord = word.german;
 
       }
 

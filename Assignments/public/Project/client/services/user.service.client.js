@@ -3,21 +3,21 @@
   .module("Gesamt")
   .factory("UserService", UserService);
 
-  function UserService($rootScope, $http) {
+  function UserService($rootScope, $http, $q) {
 
     var model = {
 
-      login : login,
-      logout : logout,
-      getCurrentUser : getCurrentUser,
-      setCurrentUser : getCurrentUser,
-      register : register,
-      findAllUsers : findAllUsers,
-      createUser : createUser,
-      deleteUserById : deleteUserById,
-      updateUser : updateUser,
-      updateProfile : updateProfile,
-      getUserById : getUserById,
+      login                : login,
+      logout               : logout,
+      getCurrentUser       : getCurrentUser,
+      setCurrentUser       : getCurrentUser,
+      register             : register,
+      findAllUsers         : findAllUsers,
+      createUser           : createUser,
+      deleteUserById       : deleteUserById,
+      updateUser           : updateUser,
+      updateProfile        : updateProfile,
+      getUserById          : getUserById,
       getUserByCredentials : getUserByCredentials
 
     };
@@ -27,50 +27,121 @@
     ///////////////////////////////
 
     function login(user) {
-      return $http.post("/api/project/login", user);
+
+      var deferred = $q.defer();
+
+      $http.post("/api/project/login", user)
+      .then(function(res){
+        deferred.resolve(res);
+      }, function (res) {
+        deferred.reject(res);
+      });
+      return deferred.promise;
     }
 
     ///////////////////////////////
 
     function logout() {
-      return $http.post("/api/project/logout");
+
+      var deferred = $q.defer();
+
+      $http.post("/api/project/logout")
+      .then(function(res){
+        deferred.resolve(res);
+      }, function (res) {
+        deferred.reject(res);
+      });
+      return deferred.promise;
     }
 
     ///////////////////////////////
 
     function findAllUsers() {
-      return $http.get("/api/project/admin/user");
+
+      var deferred = $q.defer();
+
+      $http.get("/api/project/admin/user")
+      .then(function(res){
+        deferred.resolve(res);
+      }, function (res) {
+        deferred.reject(res);
+      });
+      return deferred.promise;
     }
 
     ///////////////////////////////
 
     function createUser(user){
-      return $http.post("/api/assignment/admin/createuser", user);
+
+      var deferred = $q.defer();
+
+      $http.post("/api/assignment/admin/createuser", user)
+      .then(function(res){
+        deferred.resolve(res);
+      }, function (res) {
+        deferred.reject(res);
+      });
+      return deferred.promise;
     }
 
     ///////////////////////////////
 
     function deleteUserById(userId) {
-      return $http.delete("/api/assignment/admin/user/" + userId);
+
+      var deferred = $q.defer();
+
+      $http.delete("/api/assignment/admin/user/" + userId)
+      .then(function(res){
+        deferred.resolve(res);
+      }, function (res) {
+        deferred.reject(res);
+      });
+      return deferred.promise;
     }
 
     ///////////////////////////////
 
     function updateUser(userId, user){
-      return $http.put("/api/assignment/admin/user/" + userId, user);
+
+      var deferred = $q.defer();
+
+      $http.put("/api/assignment/admin/user/" + userId, user)
+      .then(function(res){
+        deferred.resolve(res);
+      }, function (res) {
+        deferred.reject(res);
+      });
+      return deferred.promise;
     }
 
     ///////////////////////////////
 
     function updateProfile(userId, user) {
-      console.log(userId, user);
-      return $http.put("/api/assignment/user/profile/" + userId, user);
+
+      var deferred = $q.defer();
+
+      $http.put("/api/assignment/user/profile/" + userId, user)
+      .then(function(res){
+        deferred.resolve(res);
+      }, function (res) {
+        deferred.reject(res);
+      });
+      return deferred.promise;
     }
 
     ///////////////////////////////
 
     function getUserById(userId) {
-      return $http.get("/api/assignment/user/" + userId);
+
+      var deferred = $q.defer();
+
+      $http.get("/api/assignment/user/" + userId)
+      .then(function(res){
+        deferred.resolve(res);
+      }, function (res) {
+        deferred.reject(res);
+      });
+      return deferred.promise;
     }
 
     ///////////////////////////////
@@ -88,7 +159,16 @@
     ///////////////////////////////
 
     function register(user) {
-      return $http.post("/api/project/register", user);
+
+      var deferred = $q.defer();
+
+      $http.post("/api/project/register", user)
+      .then(function(res){
+        deferred.resolve(res);
+      }, function (res) {
+        deferred.reject(res);
+      });
+      return deferred.promise;
     }
 
     ///////////////////////////////
@@ -98,7 +178,15 @@
       var username = user.username;
       var password = user.password;
 
-      return $http.get("/api/project/user/credentials/" + username + "/" + password);
+      var deferred = $q.defer();
+
+      $http.get("/api/project/user/credentials/" + username + "/" + password)
+      .then(function(res){
+        deferred.resolve(res);
+      }, function (res) {
+        deferred.reject(res);
+      });
+      return deferred.promise;
     }
 
     ///////////////////////////////

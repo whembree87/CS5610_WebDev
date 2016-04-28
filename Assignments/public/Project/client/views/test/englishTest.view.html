@@ -19,15 +19,30 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody ng-model="model.userWords">
     <tr ng-repeat="userWord in model.userWords">
       <td>{{userWord.german}}</td>
       <td class="nowrap">
-        <button ng-click="model.checkWord(userWord)" class="btn btn-info">
+        <button ng-click="model.checkWord(userWord)" class="btn btn-info" data-toggle="modal" data-target="#checkWord">
           <span class="glyphicon glyphicon-question-sign"></span>
         </button>
+        <div id="checkWord" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Translation</h4>
+              </div>
+              <div class="modal-body">
+                <p>The English word is {{model.userWord}}</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </td>
     </tr>
   </tbody>
-
 </table>

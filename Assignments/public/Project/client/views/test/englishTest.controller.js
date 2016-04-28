@@ -9,6 +9,7 @@
 
     var vm = this;
     vm.checkWord = checkWord;
+    vm.userWord = null;
 
     //////////////////////////
 
@@ -32,7 +33,8 @@
 
       function checkWord(word){
 
-        console.log(word);
+        vm.userWord = word.english;
+
       }
 
       //////////////////////////

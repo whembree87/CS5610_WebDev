@@ -1,4 +1,5 @@
 var q = require("q");
+var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(db, mongoose) {
 
@@ -6,13 +7,15 @@ module.exports = function(db, mongoose) {
   var UserModel = mongoose.model("Users", UserSchema);
 
   var api = {
-    createUser: createUser,
-    findAllUsers: findAllUsers,
-    findUserById: findUserById,
-    updateUser: updateUser,
-    deleteUser: deleteUser,
-    findUserByUsername: findUserByUsername,
-    findUserByCredentials: findUserByCredentials
+
+    createUser            : createUser,
+    findAllUsers          : findAllUsers,
+    findUserById          : findUserById,
+    updateUser            : updateUser,
+    deleteUser            : deleteUser,
+    findUserByUsername    : findUserByUsername,
+    findUserByCredentials : findUserByCredentials
+
   };
 
   return api;
@@ -66,6 +69,22 @@ module.exports = function(db, mongoose) {
     return UserModel.update({_id: userId}, {$set: user});
 
   }
+
+  //   var id = user._id;
+  //
+  //   var deferred = q.defer();
+  //
+  //   UserModel.update({_id: id}, {$set:user}, {new: true, upsert: true}, function(err, doc) {
+  //     if (err) {
+  //       deferred.reject(err);
+  //     }
+  //     else {
+  //       deferred.resolve(doc);
+  //     }
+  //   });
+  //
+  //   return deferred.promise;
+  // }
 
   //////////////////////
 

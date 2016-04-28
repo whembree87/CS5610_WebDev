@@ -8,7 +8,7 @@
 </br>
 
 <table class="table table-striped" ng-controller="GermanTestController as model">
-{{model.theWord}}
+  {{model.theWord}}
   <thead>
     <tr>
       <th>
@@ -27,31 +27,23 @@
         <button ng-click="model.checkWord(userWord)" class="btn btn-info" data-toggle="modal" data-target="#checkWord">
           <span class="glyphicon glyphicon-question-sign"></span>
         </button>
-        {{model.userWord}}
+        <div id="checkWord" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Translation</h4>
+              </div>
+              <div class="modal-body">
+                <p>The German word is {{model.userWord}}</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </td>
     </tr>
   </tbody>
 </table>
-
-<!-- Modal -->
-
-<div id="checkWord" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Translation</h4>
-      </div>
-
-      <div class="modal-body">
-        <p>The German word is {{model.userWord}}</p>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
-      </div>
-
-    </div>
-  </div>
-</div>

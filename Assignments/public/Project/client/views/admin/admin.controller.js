@@ -18,6 +18,7 @@
     vm.sortByFirstName = sortByFirstName;
     vm.sortByLastName = sortByLastName;
     vm.ascending = true;
+    vm.user = null;
 
     ////////////////////////////////
 
@@ -55,7 +56,7 @@
         .then(function(response){
 
           vm.users = response.data;
-          
+
         }),
 
         UserService

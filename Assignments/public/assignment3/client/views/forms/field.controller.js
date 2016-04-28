@@ -52,6 +52,7 @@
     /////////////////////////////
 
     function editField(field) {
+      
       vm.editedField = field;
 
       var isDropCheckOrRadio = !(vm.editedField.type === 'TEXT' || vm.editedField.type === 'TEXTAREA');
