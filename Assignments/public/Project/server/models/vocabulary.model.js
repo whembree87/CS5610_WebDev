@@ -7,10 +7,11 @@ module.exports = function(db, mongoose, userModel) {
 
   var api = {
 
-    addWord : addWord,
+    addWord          : addWord,
     getVocabByUserId : getVocabByUserId,
-    deleteWordById : deleteWordById,
-    updateWord : updateWord
+    deleteWordById   : deleteWordById,
+    updateWord       : updateWord,
+    findWordById     : findWordById
 
   };
 
@@ -69,11 +70,40 @@ module.exports = function(db, mongoose, userModel) {
 
   //////////////////////
 
+  function findWordById(id) {
+
+    var deferred = q.defer();
+
+    VocabularyModel.findById(id, function (err, doc) {
+      if (err) {
+        deferred.reject(err);
+      }
+      else {
+        deferred.resolve(doc);
+      }
+    });
+    return deferred.promise;
+  }
+
+  //////////////////////
+
   function updateWord(word) {
 
     var id = word._id;
+    delete word._id;
 
-    return VocabularyModel.update({_id: id}, {$set: word});
+    var deferred = q.defer();
+
+    VocabularyModel.update({_id: id}, {$set:word}, {new: true, upsert: true}, function(err, doc) {
+      if (err) {
+        deferred.reject(err);
+      }
+      else {
+        deferred.resolve(doc);
+      }
+    });
+
+    return deferred.promise;
   }
 
   //////////////////////

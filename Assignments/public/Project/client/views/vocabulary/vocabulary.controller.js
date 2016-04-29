@@ -27,9 +27,7 @@
       .getVocabByUserId(user._id)
       .then(
         function(response) {
-
           vm.userWords = response.data;
-
         });
       }
 
@@ -45,9 +43,7 @@
         .addWord(newWord)
         .then(
           function(response) {
-
             vm.userWords = response.data;
-
           }
         ),
 
@@ -55,9 +51,7 @@
         .getVocabByUserId(user._id)
         .then(
           function(response) {
-
             vm.userWords = response.data;
-
           }
         );
       }
@@ -72,8 +66,8 @@
         $scope.word = word;
 
         vm.newWord = {
-          english: word.english,
-          german: word.german,
+          english : word.english,
+          german  : word.german,
         }
       }
 
@@ -82,15 +76,13 @@
       function removeWord(word) {
 
         var wordId = word._id;
-        var user = $rootScope.currentUser;
+        var user   = $rootScope.currentUser;
 
         VocabularyService
         .removeWord(wordId)
         .then(
           function(response) {
-
-            vm.userWords = response.data;
-
+            console.log(response.data);
           }
         ),
 
@@ -98,9 +90,7 @@
         .getVocabByUserId(user._id)
         .then(
           function(response) {
-
             vm.userWords = response.data;
-
           }
         );
       }
@@ -110,97 +100,91 @@
       function editWord(word) {
 
         var wordId = $scope.word._id;
-        var user = $rootScope.currentUser;
+        var user   = $rootScope.currentUser;
 
         var newWord = {
-          _id : wordId,
+          _id     : wordId,
           english : word.english,
-          german : word.german
+          german  : word.german
         }
 
         VocabularyService
         .updateWord(newWord)
         .then(
           function(response) {
+            console.log(response.data);
+          }),
 
-            vm.userWords = response.data;
+          VocabularyService
+          .getVocabByUserId(user._id)
+          .then(
+            function(response) {
+              vm.userWords = response.data;
+            });
+          }
+
+          /////////////////////////////////
+
+          function sortWords(sortFunction) {
+
+            vm.userWords.sort(sortFunction);
+
+            vm.ascending = !vm.ascending;
 
           }
-        ),
 
-        VocabularyService
-        .getVocabByUserId(user._id)
-        .then(
-          function(response) {
 
-            vm.userWords = response.data;
+          /////////////////////////////////
 
+          function sortByEnglish(word1, word2) {
+
+            var value = 0;
+
+            if (word1.english < word2.english){
+              value = -1
+            }
+
+            else if (word1.english === word2.english){
+              value = 0
+            }
+
+            else {
+              value = 1
+            }
+
+            if (vm.ascending){
+              value = value * -1
+            }
+
+            return value;
           }
-        );
-      }
 
-      /////////////////////////////////
+          /////////////////////////////////
 
-      function sortWords(sortFunction) {
+          function sortByGerman(word1, word2) {
 
-        vm.userWords.sort(sortFunction);
+            var value = 0;
 
-        vm.ascending = !vm.ascending;
+            if (word1.german < word2.german){
+              value = -1
+            }
 
-      }
+            else if (word1.german === word2.german){
+              value = 0
+            }
 
+            else {
+              value = 1
+            }
 
-      /////////////////////////////////
+            if(vm.ascending){
+              value = value * -1
+            }
 
-      function sortByEnglish(word1, word2) {
+            return value;
+          }
 
-        var value = 0;
+          /////////////////////////////////
 
-        if (word1.english < word2.english){
-          value = -1
         }
-
-        else if (word1.english === word2.english){
-          value = 0
-        }
-
-        else {
-          value = 1
-        }
-
-        if (vm.ascending){
-          value = value * -1
-        }
-
-        return value;
-      }
-
-      /////////////////////////////////
-
-      function sortByGerman(word1, word2) {
-
-        var value = 0;
-
-        if (word1.german < word2.german){
-          value = -1
-        }
-
-        else if (word1.german === word2.german){
-          value = 0
-        }
-
-        else {
-          value = 1
-        }
-
-        if(vm.ascending){
-          value = value * -1
-        }
-
-        return value;
-      }
-
-      /////////////////////////////////
-
-    }
-  })();
+      })();

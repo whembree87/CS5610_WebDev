@@ -23,8 +23,8 @@ module.exports = function(app, vocabularyModel) {
 
     vocabularyModel.addWord(newWord)
     .then(
-      function (users) {
-        res.json(users);
+      function (words) {
+        res.json(words);
       },
       function (err) {
         res.status(400).send(err);
@@ -40,8 +40,8 @@ module.exports = function(app, vocabularyModel) {
 
     vocabularyModel.getVocabByUserId(userId)
     .then(
-      function (users) {
-        res.json(users);
+      function (words) {
+        res.json(words);
       },
       function (err) {
         res.status(400).send(err);
@@ -57,8 +57,8 @@ module.exports = function(app, vocabularyModel) {
 
     vocabularyModel.deleteWordById(wordId)
     .then(
-      function (users) {
-        res.json(users);
+      function (words) {
+        res.json(words);
       },
       function (err) {
         res.status(400).send(err);
@@ -71,18 +71,41 @@ module.exports = function(app, vocabularyModel) {
   function updateWord(req, res) {
 
     var word = req.body;
+    console.log("Word to be updated is", word);
 
-    vocabularyModel.updateWord(word)
+    vocabularyModel
+    .findWordById(word._id)
     .then(
-      function (users) {
-        res.json(users);
+      function (tWord) {
+        if (tWord) {
+          console.log("Temp word is", tWord);
+        }
+        vocabularyModel
+        .updateWord(word)
+        .then(
+          function (na) {
+            vocabularyModel
+            .findWordById(word._id)
+            .then(
+              function (doc) {
+                res.json(doc);
+              }
+            ),
+            function (err) {
+              res.status(400).send(err);
+            }
+          },
+          function (err) {
+            res.status(400).send(err);
+          }
+        );
+
       },
       function (err) {
         res.status(400).send(err);
       }
     );
   }
-
 
   //////////////////////
 
