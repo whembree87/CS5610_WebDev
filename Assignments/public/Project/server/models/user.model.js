@@ -40,8 +40,17 @@ module.exports = function(db, mongoose) {
 
   function findUserById(userId) {
 
-    return UserModel.findById(userId);
+    var deferred = q.defer();
 
+    UserModel.findById(userId, function (err, doc) {
+      if (err) {
+        deferred.reject(err);
+      }
+      else {
+        deferred.resolve(doc);
+      }
+    });
+    return deferred.promise;
   }
 
   //////////////////////
@@ -63,27 +72,24 @@ module.exports = function(db, mongoose) {
 
   //////////////////////
 
-  function updateUser(userId, user) {
+  function updateUser(user) {
 
-    return UserModel.update({_id: userId}, {$set: user});
+    var id = user._id;
+    delete user._id;
 
+    var deferred = q.defer();
+
+    UserModel.update({_id: id}, {$set:user}, {new: true, upsert: true}, function(err, doc) {
+      if (err) {
+        deferred.reject(err);
+      }
+      else {
+        deferred.resolve(doc);
+      }
+    });
+
+    return deferred.promise;
   }
-
-  //   var id = user._id;
-  //
-  //   var deferred = q.defer();
-  //
-  //   UserModel.update({_id: id}, {$set:user}, {new: true, upsert: true}, function(err, doc) {
-  //     if (err) {
-  //       deferred.reject(err);
-  //     }
-  //     else {
-  //       deferred.resolve(doc);
-  //     }
-  //   });
-  //
-  //   return deferred.promise;
-  // }
 
   //////////////////////
 

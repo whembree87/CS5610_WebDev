@@ -33,7 +33,7 @@
     function updateUser (user) {
 
       UserService
-      .updateProfile(user._id, user)
+      .updateProfile(user)
       .then(
         function(response) {
           $scope.message = "User updated successfully";

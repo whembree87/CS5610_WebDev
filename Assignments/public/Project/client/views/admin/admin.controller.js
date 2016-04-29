@@ -41,23 +41,29 @@
       UserService
       .createUser(newUser)
       .then(function(response){
-          vm.users = response.data;
+        vm.users = response.data;
       });
     }
 
     ////////////////////////////////
 
-    function updateUser(user) {
+    function updateUser(userInfo) {
 
       var userId = $rootScope.userId;
 
-        UserService
-        .updateUser(userId, user)
-        .then(function(response){
+      var user = {
+        _id       : userId,
+        username  : userInfo.username,
+        password  : userInfo.password,
+        firstName : userInfo.firstName,
+        lastName  : userInfo.lastName,
+        roles     : userInfo.roles
+      }
 
-          vm.users = response.data;
-
-        }),
+      UserService
+      .updateUser(user)
+      .then(function(response){
+        console.log(response.data);
 
         UserService
         .findAllUsers()
@@ -66,6 +72,8 @@
           vm.users =  response.data;
 
         });
+
+      });
     }
 
     ////////////////////////////////
@@ -89,11 +97,11 @@
       $rootScope.userId = user._id;
 
       vm.user = {
-        username: user.username,
-        password: user.password,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        roles: user.roles,
+        username  : user.username,
+        password  : user.password,
+        firstName : user.firstName,
+        lastName  : user.lastName,
+        roles     : user.roles,
       }
     }
 

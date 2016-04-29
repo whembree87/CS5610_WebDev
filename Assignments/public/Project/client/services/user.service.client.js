@@ -101,11 +101,11 @@
 
     ///////////////////////////////
 
-    function updateUser(userId, user){
+    function updateUser(user){
 
       var deferred = $q.defer();
 
-      $http.put("/api/assignment/admin/user/" + userId, user)
+      $http.put("/api/assignment/admin/user", user)
       .then(function(res){
         deferred.resolve(res);
       }, function (res) {
@@ -116,11 +116,13 @@
 
     ///////////////////////////////
 
-    function updateProfile(userId, user) {
+    function updateProfile(user) {
+
+      console.log("updateProfile on client side");
 
       var deferred = $q.defer();
 
-      $http.put("/api/assignment/user/profile/" + userId, user)
+      $http.put("/api/assignment/user", user)
       .then(function(res){
         deferred.resolve(res);
       }, function (res) {

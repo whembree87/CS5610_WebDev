@@ -19,8 +19,8 @@ module.exports = function(app, userModel, bcrypt) {
   app.get   ("/api/project/admin/user", auth, isAdmin, findAllUsers);
   app.get   ("/api/project/user/credentials/:username/:password", getUserByCredentials);
 
-  app.put   ("/api/assignment/admin/user/:userId", auth, isAdmin, updateUserAdmin);
-  app.put   ("/api/assignment/user/profile/:userId", updateProfile);
+  app.put   ("/api/assignment/admin/user", auth, isAdmin, updateUserAdmin);
+  app.put   ("/api/assignment/user", updateProfile);
 
   app.delete("/api/assignment/admin/user/:userId", auth, isAdmin, deleteUser);
 
@@ -291,12 +291,49 @@ module.exports = function(app, userModel, bcrypt) {
 
   function updateUserAdmin(req, res) {
 
-    var user   = req.body;
+    var user = req.body;
+
+    userModel
+    .findUserById(user._id)
+    .then(
+      function (tUser) {
+        if (tUser.password !== user.password) {
+          user.password = bcrypt.hashSync(user.password);
+        }
+        userModel.updateUser(user)
+        .then(
+          function (na) {
+            userModel
+            .findUserById(user._id)
+            .then(
+              function (doc) {
+                console.log(doc);
+                res.json(doc);
+              }
+            ),
+            function (err) {
+              res.status(400).send(err);
+            }
+          },
+          function (err) {
+            res.status(400).send(err);
+          }
+        );
+
+      },
+      function (err) {
+        res.status(400).send(err);
+      }
+    );
+  }
+
+  //////////////////////
+
+  function findUserById(req, res) {
+
     var userId = req.params.userId;
 
-    user.password = bcrypt.hashSync(user.password);
-
-    userModel.updateUser(userId, user)
+    userModel.findUserById(userId)
     .then(
       function (doc) {
         res.json(doc);
@@ -304,71 +341,77 @@ module.exports = function(app, userModel, bcrypt) {
       function (err) {
         res.status(400).send(err);
       });
-
     }
 
     //////////////////////
 
-    function findUserById(req, res) {
+    function updateProfile(req, res) {
 
-      var userId = req.params.userId;
+      var user = req.body;
 
-      userModel.findUserById(userId)
+      console.log("updateProfile on server side with", user);
+
+      delete user.roles;
+
+      userModel
+      .findUserById(user._id)
       .then(
-        function (doc) {
-          res.json(doc);
+        function (oUser) {
+          if (oUser.password !== user.password) {
+            user.password = bcrypt.hashSync(user.password);
+          }
+          userModel.updateUser(user)
+          .then(
+            function (na) {
+              userModel
+              .findUserById(user._id)
+              .then(
+                function (doc) {
+                  res.json(doc);
+                }
+              ),
+              function (err) {
+                res.status(400).send(err);
+              }
+            },
+            function (err) {
+              res.status(400).send(err);
+            }
+          );
+
         },
         function (err) {
           res.status(400).send(err);
-        });
-      }
+        }
+      );
+    }
 
-      //////////////////////
+    //////////////////////
 
-      function updateProfile(req, res) {
+    function deleteUser(req, res){
 
-        var user   = req.body;
-        var userId = req.params.userId;
+      var userId = req.params.userId;
 
-        user.password = bcrypt.hashSync(user.password);
+      userModel
+      .deleteUser(userId)
+      .then(
+        function(user){
+          return userModel.findAllUsers();
+        },
+        function(err){
+          res.status(400).send(err);
+        })
 
-        userModel.updateUser(userId, user)
         .then(
-          function (doc) {
-            res.json(doc);
+          function(users){
+            console.log(users);
+            res.json(users);
           },
-          function (err) {
+          function(err){
             res.status(400).send(err);
           });
         }
 
-
         //////////////////////
 
-        function deleteUser(req, res){
-
-          var userId = req.params.userId;
-
-          userModel
-          .deleteUser(userId)
-          .then(
-            function(user){
-              return userModel.findAllUsers();
-            },
-            function(err){
-              res.status(400).send(err);
-            })
-
-            .then(
-              function(users){
-                console.log(users);
-                res.json(users);
-              },
-              function(err){
-                res.status(400).send(err);
-              });
-            }
-
-            //////////////////////
-
-          }
+      }
