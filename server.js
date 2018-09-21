@@ -32,7 +32,7 @@ app.use(passport.session());
 //             process.env.OPENSHIFT_APP_NAME;
 // }
 
-var connectionString = 'mongodb://<heroku_38sgq0rq>:<msdfall16>@ds211143.mlab.com:11143/heroku_38sgq0rq';
+var connectionString = 'mongodb://<whembree87>:<msdfall16>@ds211143.mlab.com:11143/heroku_38sgq0rq';
 
 var db = mongoose.connect(connectionString);
 
