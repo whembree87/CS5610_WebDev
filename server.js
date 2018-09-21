@@ -22,15 +22,17 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
-var connectionString = 'mongodb://127.0.0.1:27017/Project/';
+// var connectionString = 'mongodb://127.0.0.1:27017/Project/';
+//
+// if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+//     connectionString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+//             process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+//             process.env.OPENSHIFT_MONGODB_DB_HOST + ":" +
+//             process.env.OPENSHIFT_MONGODB_DB_PORT + "/" +
+//             process.env.OPENSHIFT_APP_NAME;
+// }
 
-if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
-    connectionString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
-            process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
-            process.env.OPENSHIFT_MONGODB_DB_HOST + ":" +
-            process.env.OPENSHIFT_MONGODB_DB_PORT + "/" +
-            process.env.OPENSHIFT_APP_NAME;
-}
+var connectionString = 'mongodb://<heroku_38sgq0rq>:<msdfall16>@ds211143.mlab.com:11143/heroku_38sgq0rq';
 
 var db = mongoose.connect(connectionString);
 
