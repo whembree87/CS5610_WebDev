@@ -7,7 +7,7 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
