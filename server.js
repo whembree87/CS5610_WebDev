@@ -6,9 +6,9 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var mongoose = require('mongoose');
+var connectionString = 'mongodb://whembree87:gesamt123@ds119078.mlab.com:19078/gesamt';
 var db = mongoose.connect(connectionString);
 var bcrypt = require('bcryptjs');
-var connectionString = 'mongodb://whembree87:gesamt123@ds119078.mlab.com:19078/gesamt';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
