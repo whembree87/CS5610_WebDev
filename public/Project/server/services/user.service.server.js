@@ -140,7 +140,7 @@ module.exports = function(app, userModel, bcrypt) {
         username : user.username,
         password : bcrypt.hashSync(user.password),
         roles    : "admin"
-      }
+      };
 
       userModel
       .findUserByUsername(newUser.username)

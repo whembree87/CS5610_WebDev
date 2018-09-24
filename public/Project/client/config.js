@@ -68,8 +68,7 @@
 
   //////////////////////
 
-  var checkAdmin = function($q, $timeout, $http, $location, $rootScope)
-  {
+  var checkAdmin = function($q, $timeout, $http, $location, $rootScope) {
     var deferred = $q.defer();
 
     $http.get('/api/assignment/loggedin').success(function(user)
@@ -88,8 +87,7 @@
 
   //////////////////////
 
-  var checkLoggedin = function($q, $timeout, $http, $location, $rootScope)
-  {
+  var checkLoggedin = function($q, $timeout, $http, $location, $rootScope) {
     var deferred = $q.defer();
 
     $http.get('/api/assignment/loggedin').success(function(user)
@@ -115,8 +113,7 @@
 
   //////////////////////
 
-  var checkCurrentUser = function($q, $timeout, $http, $location, $rootScope)
-  {
+  var checkCurrentUser = function($q, $timeout, $http, $location, $rootScope) {
     var deferred = $q.defer();
 
     $http.get('/api/assignment/loggedin').success(function(user)

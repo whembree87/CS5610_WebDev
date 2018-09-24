@@ -5,5 +5,4 @@ module.exports = function(app, db, mongoose, bcrypt) {
 
   var userService = require("./services/user.service.server.js")(app, userModel, bcrypt);
   var vocabularyService = require("./services/vocabulary.service.server.js")(app, vocabularyModel);
-
-}
+};
