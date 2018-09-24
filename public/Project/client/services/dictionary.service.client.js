@@ -20,7 +20,7 @@
 
       var deferred = $q.defer();
 
-      $http.jsonp("http://glosbe.com/gapi/translate?from=de&dest=eng&format=json&phrase=" + word + "&callback=JSON_CALLBACK&pretty=true")
+      $http.jsonp("https://glosbe.com/gapi/translate?from=de&dest=eng&format=json&phrase=" + word + "&callback=JSON_CALLBACK&pretty=true")
       .then(function(res){
         deferred.resolve(res);
       }, function (res) {
@@ -35,7 +35,7 @@
 
       var deferred = $q.defer();
 
-      $http.jsonp("http://glosbe.com/gapi/translate?from=eng&dest=de&format=json&phrase=" + word + "&callback=JSON_CALLBACK&pretty=true")
+      $http.jsonp("https://glosbe.com/gapi/translate?from=eng&dest=de&format=json&phrase=" + word + "&callback=JSON_CALLBACK&pretty=true")
       .then(function(res){
         deferred.resolve(res);
       }, function (res) {
