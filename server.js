@@ -31,7 +31,7 @@ var db = mongoose.connect(connectionString, function(err, res) {
     }
 });
 
-app.use(express.static(__dirname + '/public/Landing_Page'));
+app.use(express.static(__dirname + '/public/Project/client/index.html'));
 
 require("./public/Project/server/app.js")(app, db, mongoose, bcrypt);
 
