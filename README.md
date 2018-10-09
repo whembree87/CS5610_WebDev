@@ -1,3 +1,5 @@
-The OpenShift `nodejs` cartridge documentation can be found at:
+CS 5610 : MEAN Stack Web Development -- Northeastern University, Seattle -- Spring 2016
 
-http://openshift.github.io/documentation/oo_cartridge_guide.html#nodejs
+* Repository contains a MEAN stack application to aide students learning German/English (public/Project)
+* Core functionality includes a dictionary for word translations and a  vocabulary tester to store queried words 
+* Heroku URL : https://serene-cove-39966.herokuapp.com/#/login
